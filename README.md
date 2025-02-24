@@ -1,4 +1,4 @@
-![image](src/main/resources/taczlabs.png)
+![image](src/main/resources/logo.png)
 
 TaCZ:Labs 为永恒枪械工坊：零的一个附属
 
