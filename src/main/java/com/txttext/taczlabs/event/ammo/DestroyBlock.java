@@ -19,7 +19,7 @@ import net.minecraftforge.server.command.ConfigCommand;
 public class DestroyBlock {
     @SubscribeEvent
     public static void onAmmoHitBlock(AmmoHitBlockEvent event) {
-        Level level = event.getLevel();
+        /*Level level = event.getLevel();
         BlockState state = event.getState();
         BlockPos pos = event.getHitResult().getBlockPos();
         EntityKineticBullet ammo = event.getAmmo();
@@ -28,6 +28,6 @@ public class DestroyBlock {
         if (AmmoConfig.DESTROY_GLASS.get() && (stateBlock instanceof BlockCanBeDestroy))
         if (AmmoConfig.DESTROY_GLASS.get() && (stateBlock instanceof AbstractGlassBlock)) {
             level.destroyBlock(pos, false, ammo.getOwner());
-        }
+        }*/
     }
 }

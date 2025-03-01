@@ -7,6 +7,10 @@
   "mixins": [
   ],
   "client": [
+    "LocalPlayerShootMixin"
+  ],
+  "server": [
+    "LivingEntityShootMixin"
   ],
   "injectors": {
     "defaultRequire": 1
