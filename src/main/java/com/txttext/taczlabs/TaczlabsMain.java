@@ -36,7 +36,7 @@ import org.slf4j.Logger;
 public class TaczlabsMain {
     public static final String MODID = "taczlabs";
     private static final Logger LOGGER = LogUtils.getLogger();// 直接引用 slf4j 日志记录器
-    // 创建一个延迟注册器（Deferred Register），用于保存所有将在 “taczlabs ”命名空间下注册的方块
+    /*// 创建一个延迟注册器（Deferred Register），用于保存所有将在 “taczlabs ”命名空间下注册的方块
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);//物品
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);//创造模式标签页
@@ -48,37 +48,40 @@ public class TaczlabsMain {
     // 注册一个id为 taczlabs:example_tab 的创造模式标签页，置于“战斗”标签页之后。
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> EXAMPLE_ITEM.get().getDefaultInstance()).displayItems((parameters, output) -> {
         output.accept(EXAMPLE_ITEM.get()); // 将example_item添加到标签页。对于自己的标签页，这种方法优于事件
-    }).build());
-
-    public TaczlabsMain(FMLJavaModLoadingContext context) {
+    }).build());*/
+    @SuppressWarnings("all")
+    public TaczlabsMain(){
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.addListener(this::commonSetup);//为模组加载注册 commonSetup 方法
+        MinecraftForge.EVENT_BUS.register(this);//注册server与其他要监听的游戏事件
+    }
+/*    public TaczlabsMain(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
         modEventBus.addListener(this::commonSetup);//为模组加载注册 commonSetup 方法
-        BLOCKS.register(modEventBus);//将延迟寄存器(Deferred Register)注册到模组事件总线上，以便方块得到注册
-        ITEMS.register(modEventBus);//物品
-        CREATIVE_MODE_TABS.register(modEventBus);//创造模式标签页
-
-        //注册server与其他要监听的游戏事件
-        MinecraftForge.EVENT_BUS.register(this);
-        modEventBus.addListener(this::addCreative);//将物品注册到创造模式标签页
+        MinecraftForge.EVENT_BUS.register(this);//注册server与其他要监听的游戏事件
+//        BLOCKS.register(modEventBus);//将延迟寄存器(Deferred Register)注册到模组事件总线上，以便方块得到注册
+//        ITEMS.register(modEventBus);//物品
+//        CREATIVE_MODE_TABS.register(modEventBus);//创造模式标签页
+//        modEventBus.addListener(this::addCreative);//将物品注册到创造模式标签页
 
         //注册ForgeConfigSpec，以便 Forge 能创建并加载配置文件
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-        context.registerConfig(ModConfig.Type.COMMON, TLConfig.init());//注册配置文件
-    }
+//        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+//        context.registerConfig(ModConfig.Type.COMMON, TLConfig.init());//注册配置文件
+    }*/
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         //一些常见的设置
-        //LOGGER.info("HELLO FROM COMMON SETUP");//Minecraft Development你补药在日志里乱拉屎啊（恼）
+        LOGGER.info("HELLO FROM COMMON SETUP");//Minecraft Development你补药在日志里乱拉屎啊（恼）
         //LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-        if (Config.logDirtBlock) LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+//        if (Config.logDirtBlock) LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
+//        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
+//        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
     //在构造的方块标签页中添加示例方块物品
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(EXAMPLE_BLOCK_ITEM);
-    }
+//    private void addCreative(BuildCreativeModeTabContentsEvent event) {
+//        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(EXAMPLE_BLOCK_ITEM);
+//    }
 
     //可以使用 SubscribeEvent，让事件总线发现要调用的方法
     @SubscribeEvent

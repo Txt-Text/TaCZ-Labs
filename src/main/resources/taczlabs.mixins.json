@@ -5,12 +5,13 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "taczlabs.refmap.json",
   "mixins": [
+    "LivingEntityShootMixin"
   ],
   "client": [
-    "LocalPlayerShootMixin"
+    "LocalPlayerShootMixin",
+    "LocalPlayerSprintMixin"
   ],
   "server": [
-    "LivingEntityShootMixin"
   ],
   "injectors": {
     "defaultRequire": 1
