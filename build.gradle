@@ -169,7 +169,6 @@ dependencies {
     //implementation fileTree(dir: 'lib', includes: ['*.jar'])
     //依赖lib目录下的除了xxx.jar以外的所有以.jar结尾的文件
     //implementation fileTree(dir: 'lib', excludes: ['xxx.jar'], includes: ['*.jar'])
-
     implementation fg.deobf("curse.maven:timeless-and-classics-zero-1028108:6058563-sources-6059152")
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
