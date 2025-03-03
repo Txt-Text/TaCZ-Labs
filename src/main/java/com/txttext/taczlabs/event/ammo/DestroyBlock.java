@@ -24,7 +24,7 @@ public class DestroyBlock {
         BlockPos pos = event.getHitResult().getBlockPos();
         EntityKineticBullet ammo = event.getAmmo();
         Block stateBlock = state.getBlock();
-        Class[] BlockCanBeDestroy = xxx;
+        Class[] BlockCanBeDestroy = null;
         if (AmmoConfig.DESTROY_GLASS.get() && (stateBlock instanceof BlockCanBeDestroy))
         if (AmmoConfig.DESTROY_GLASS.get() && (stateBlock instanceof AbstractGlassBlock)) {
             level.destroyBlock(pos, false, ammo.getOwner());

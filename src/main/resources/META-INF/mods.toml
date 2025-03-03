@@ -64,7 +64,7 @@ side = "BOTH"
 # Dependencies
 [[dependencies."${mod_id}"]]
 modId = "tacz"
-mandatory = true # 告诉加载器是否必需安装此Mod
+mandatory = true # 是否必需安装此Mod
 versionRange = "[1.1.4,)" # 依赖Mod的版本
 ordering = "NONE" # 加载顺序（基本没用过）
 side = "BOTH" # 在哪端运行
