@@ -63,8 +63,9 @@ ordering = "NONE"
 side = "BOTH"
 # Dependencies
 [[dependencies."${mod_id}"]]
-modId = "tacz"
-mandatory = true # 是否必需安装此Mod
-versionRange = "[1.1.4,)" # 依赖Mod的版本
-ordering = "NONE" # 加载顺序（基本没用过）
-side = "BOTH" # 在哪端运行
+modId = "cloth_config"
+mandatory = false
+versionRange = "[11.1.136,)"
+ordering = "NONE"
+side = "CLIENT"
+
