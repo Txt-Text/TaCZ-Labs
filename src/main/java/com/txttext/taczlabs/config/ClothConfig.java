@@ -9,14 +9,13 @@ public class ClothConfig {
     public static ConfigBuilder configBuilder(){
         ConfigBuilder builder = ConfigBuilder.create()
                 //.setParentScreen(parent)
-                .setTitle(Component.translatable("title.taczlabs.config"));
-        ConfigCategory general = builder.getOrCreateCategory(Component.translatable("title.taczlabs.config"));
+                .setTitle(Component.translatable("taczlabs.config.title"));
+        ConfigCategory general = builder.getOrCreateCategory(Component.translatable("taczlabs.config.title"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
-        boolean enableTLCrosshair = true;
-        general.addEntry(entryBuilder.startStrField(Component.translatable("option.taczlabs.enableTLCrosshair"), String.valueOf(enableTLCrosshair))
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("taczlabs.config.option.enableTLCrosshair"), GuiConfig.ENABLE_TL_CROSSHAIR.get())
                 .setDefaultValue(true)
-                .setTooltip(Component.translatable("config.tip.enable_tl_crosshair"))
-                .setSaveConsumer() // Recommended: Called when user save the config
+                .setTooltip(Component.translatable("taczlabs.config.tip.enable_tl_crosshair"))
+                .setSaveConsumer(GuiConfig.ENABLE_TL_CROSSHAIR::set) // Recommended: Called when user save the config
                 .build());
 
         builder.setSavingRunnable(() -> {
