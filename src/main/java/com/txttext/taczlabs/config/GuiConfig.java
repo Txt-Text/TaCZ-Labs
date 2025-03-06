@@ -7,7 +7,7 @@ public class GuiConfig {
     public static void init(ForgeConfigSpec.Builder builder) {
         builder.push("gui");
 
-        builder.comment("New Crosshair of TaCZ:Labs");//搞清楚这是干什么的之后替换成路径
+        builder.comment("New Crosshair of TaCZ:Labs");//或许是输出到文件的#注释？
         ENABLE_TL_CROSSHAIR = builder.define("EnableTLCrosshair", true);
 
         builder.pop();

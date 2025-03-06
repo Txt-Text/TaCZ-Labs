@@ -9,14 +9,10 @@ public class ClothConfig {
     public static ConfigBuilder configBuilder(){
         ConfigBuilder builder = ConfigBuilder.create()
                 //.setParentScreen(parent)
-                .setTitle(Component.translatable("taczlabs.config.title"));
-        ConfigCategory general = builder.getOrCreateCategory(Component.translatable("taczlabs.config.title"));
+                .setTitle(Component.translatable("config.taczlabs.title"));
+
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
-        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("taczlabs.config.option.enableTLCrosshair"), GuiConfig.ENABLE_TL_CROSSHAIR.get())
-                .setDefaultValue(true)
-                .setTooltip(Component.translatable("taczlabs.config.tip.enable_tl_crosshair"))
-                .setSaveConsumer(GuiConfig.ENABLE_TL_CROSSHAIR::set) // Recommended: Called when user save the config
-                .build());
+        GuiClothConfig.init(builder, entryBuilder);
 
         builder.setSavingRunnable(() -> {
             //保存配置
@@ -24,4 +20,16 @@ public class ClothConfig {
 
         return builder;
     }
+
+    //public static void
+    /*
+    * public static void registerModsPage() {
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
+                new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> getConfigScreen(parent)));
+    }
+
+    public static Screen getConfigScreen(@Nullable Screen parent) {
+        return MenuIntegration.getConfigBuilder().setParentScreen(parent).build();
+    }
+    * */
 }
