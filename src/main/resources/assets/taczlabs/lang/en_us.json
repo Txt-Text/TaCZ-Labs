@@ -1,0 +1,12 @@
+{
+  "config.taczlabs.title": "TaCZ:Labs Settings",
+  "config.taczlabs.hud": "HUD",
+  "config.taczlabs.hud.enable_tl_crosshair": "Enable TL Crosshair",
+  "config.taczlabs.hud.enable_tl_crosshair.desc": "TaCZ:Labs made different crosshair \nfor different guns, it also has dynamic effect \nwhile sprinting and shooting.",
+  "config.taczlabs.hud.sprinting_crosshair": "Sprinting Crosshair",
+  "config.taczlabs.hud.sprinting_crosshair.desc": "Option 'TaCZ:Labs' requires TL-crosshair, \n'TaCZ vanilla' requires disabled TL-crosshair",
+  "enum.taczlabs.tl_crosshair": "TaCZ:Labs",
+  "enum.taczlabs.tacz_vanilla": "TaCZ Vanilla",
+  "enum.taczlabs.point": "Center Point",
+  "enum.taczlabs.hide": "Hide"
+}

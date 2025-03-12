@@ -1,0 +1,12 @@
+{
+  "config.taczlabs.title": "TaCZ:Labs 设置",
+  "config.taczlabs.hud": "HUD",
+  "config.taczlabs.hud.enable_tl_crosshair": "启用 TaCZ:Labs 准星",
+  "config.taczlabs.hud.enable_tl_crosshair.desc": "TaCZ:Labs 为不同种类的枪械制作了\n不同的准星，并且疾跑、开枪时有动态效果。",
+  "config.taczlabs.hud.sprinting_crosshair": "疾跑时显示的准星样式",
+  "config.taczlabs.hud.sprinting_crosshair.desc": "“TaCZ:Labs 准星” 需要启用TL准星，\n“TaCZ 原版样式” 需要禁用TL准星。",
+  "enum.taczlabs.tl_crosshair": "TaCZ:Labs 准星",
+  "enum.taczlabs.tacz_vanilla": "TaCZ 原版样式",
+  "enum.taczlabs.point": "中心点",
+  "enum.taczlabs.hide": "隐藏"
+}

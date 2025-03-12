@@ -1,4 +1,4 @@
-package com.txttext.taczlabs.mixin;
+package com.txttext.taczlabs.mixin.SprintShoot;
 
 import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.client.gameplay.LocalPlayerDataHolder;
@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 
 @Mixin(LocalPlayerShoot.class)
+@SuppressWarnings("all")
 public abstract class LocalPlayerShootMixin {
     /*target是控制客户端开火事件的类*/
     @Shadow(remap = false)
@@ -29,17 +30,17 @@ public abstract class LocalPlayerShootMixin {
             ),
             remap = false
     )
-    public float redirectGetSynSprintTime(IGunOperator instance) {
-        float originalTime = instance.getSynSprintTime();
+    public float redirectGetSynSprintTime(IGunOperator iGunOperator) {
+        float originalTime = iGunOperator.getSynSprintTime();
         if (originalTime > 0) {
-            /*使 originalTime 为 0 跳过原条件判断*/
+            /*使 originalTime = 0 跳过原条件*/
             return 0;
         }
         /*其他情况返回原值保持原有逻辑*/
         return originalTime;
     }
 
-//吐槽：注释掉的代码比我写的多
+//吐槽：注释掉的比我写的多
 //    @Redirect(
 //            method = "shoot",
 //            at = @At(

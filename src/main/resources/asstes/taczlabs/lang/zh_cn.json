@@ -1,6 +1,0 @@
-{
-  "config.taczlabs.title": "TaCZ:Labs 设置",
-  "config.taczlabs.gui": "GUI 设置",
-  "config.taczlabs.gui.enable_tl_crosshair": "启用TL新准星",
-  "config.taczlabs.gui.enable_tl_crosshair.desc": "TaCZ:Labs 为不同种类的枪械制作了不同的准星，并且跑动、开枪时都有动态效果"
-}

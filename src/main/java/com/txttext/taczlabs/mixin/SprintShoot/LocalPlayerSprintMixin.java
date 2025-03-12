@@ -1,4 +1,4 @@
-package com.txttext.taczlabs.mixin;
+package com.txttext.taczlabs.mixin.SprintShoot;
 
 import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.client.gameplay.LocalPlayerDataHolder;
@@ -11,10 +11,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayerSprint.class)
+@SuppressWarnings("all")
 public abstract class LocalPlayerSprintMixin {
-    @Shadow
+    @Shadow(remap = false)
     private final LocalPlayerDataHolder data;
-    @Shadow
+    @Shadow(remap = false)
     private final LocalPlayer player;
     public LocalPlayerSprintMixin(LocalPlayerDataHolder data, LocalPlayer player) {
         this.data = data;

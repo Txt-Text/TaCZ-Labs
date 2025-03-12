@@ -1,4 +1,4 @@
-package com.txttext.taczlabs.mixin;
+package com.txttext.taczlabs.mixin.SprintShoot;
 
 import com.tacz.guns.entity.shooter.LivingEntityDrawGun;
 import com.tacz.guns.entity.shooter.LivingEntityShoot;
@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(LivingEntityShoot.class)
+@SuppressWarnings("all")
 public abstract class LivingEntityShootMixin {
     /*target是控制服务端开火事件的类*/
     @Shadow(remap = false)
@@ -40,7 +41,8 @@ public abstract class LivingEntityShootMixin {
         if (sprintTime > 0) {
             /*开枪时取消疾跑*/
             shooter.setSprinting(false);
-            return 0.0F;//返回0摧毁原条件判断
+            /*返回0摧毁原条件判断*/
+            return 0;
         }
         /*其他情况返回原值保持原有逻辑*/
         return sprintTime;
