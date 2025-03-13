@@ -5,7 +5,6 @@ import com.txttext.taczlabs.config.ClientConfig;
 import com.txttext.taczlabs.config.ClothConfig;
 import com.txttext.taczlabs.config.ServerConfig;
 import com.txttext.taczlabs.config.CommonConfig;
-import com.txttext.taczlabs.hud.crosshair.overlay.CrosshairRegister;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;

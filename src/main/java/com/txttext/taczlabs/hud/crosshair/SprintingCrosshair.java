@@ -4,10 +4,10 @@ package com.txttext.taczlabs.hud.crosshair;
  * */
 public enum SprintingCrosshair {
 
-    /**TaCZ: Labs 准星（需要开启“启用TL准星”）*/
+    /**TaCZ: Labs 准星（需要启用TL准星）*/
     TL_CROSSHAIR,
 
-    /**TaCZ 原版准星（未开启“启用TL准星”）*/
+    /**TaCZ 原版准星（需要禁用TL准星）*/
     TACZ_VANILLA,
 
     /**仅显示中心点*/

@@ -1,4 +1,4 @@
-package com.txttext.taczlabs.hud.crosshair.overlay;
+package com.txttext.taczlabs.hud.crosshair;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
