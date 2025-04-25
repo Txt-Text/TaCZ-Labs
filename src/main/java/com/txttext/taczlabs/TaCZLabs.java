@@ -1,11 +1,10 @@
 package com.txttext.taczlabs;
 
-import com.mojang.logging.LogUtils;
 import com.txttext.taczlabs.config.ClientConfig;
-import com.txttext.taczlabs.config.ClothConfig;
+import com.txttext.taczlabs.config.clothconfig.ClothConfig;
 import com.txttext.taczlabs.config.ServerConfig;
 import com.txttext.taczlabs.config.CommonConfig;
-import com.txttext.taczlabs.hud.crosshair.overlay.CrosshairRegister;
+//import com.txttext.taczlabs.hud.crosshair.overlay.CrosshairRegister;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -17,14 +16,13 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.slf4j.Logger;
 
 // 这里的值应与 META-INF/mods.toml 文件中的条目相匹配
 @Mod(TaCZLabs.MODID)
 public class TaCZLabs {
     public static final String MODID = "taczlabs";
-    private static final Logger LOGGER = LogUtils.getLogger();// 直接引用 slf4j 日志记录器
-    //大部分都是 Minecraft Development 生成的，基本都用不到，不要在意这些细节
+    //private static final Logger LOGGER = LogUtils.getLogger();// 直接引用 slf4j 日志记录器
+    //大部分都是 Minecraft Dev 插件生成的，不要在意这些细节
     /*// 创建一个延迟注册器（Deferred Register），用于保存所有将在 “taczlabs ”命名空间下注册的方块
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);//物品
@@ -45,9 +43,9 @@ public class TaCZLabs {
         MinecraftForge.EVENT_BUS.register(this);//注册server与其他要监听的游戏事件
         //MinecraftForge.EVENT_BUS.register(new CrosshairRegister());
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.init());
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.init());
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.init());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.init());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.init());
         ClothConfig.register();
     }
 /*    public TaczlabsMain(FMLJavaModLoadingContext context) {

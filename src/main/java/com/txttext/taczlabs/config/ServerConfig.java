@@ -1,5 +1,6 @@
 package com.txttext.taczlabs.config;
 
+import com.txttext.taczlabs.config.fileconfig.FunctionConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 /*

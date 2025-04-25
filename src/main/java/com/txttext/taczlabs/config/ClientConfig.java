@@ -1,5 +1,6 @@
 package com.txttext.taczlabs.config;
 
+import com.txttext.taczlabs.config.fileconfig.HudConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
 /*
     这里是初始化所有客户端配置的地方

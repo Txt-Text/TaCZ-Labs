@@ -1,4 +1,4 @@
-package com.txttext.taczlabs.mixin.SprintShoot;
+package com.txttext.taczlabs.mixin.sprint_shoot;
 
 import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.client.gameplay.LocalPlayerDataHolder;
