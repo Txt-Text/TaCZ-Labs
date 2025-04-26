@@ -12,7 +12,7 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class TLCrosshair implements IGuiOverlay {
     public static final TLCrosshair INSTANCE = new TLCrosshair();
-    public final ResourceLocation HUDLoc = new ResourceLocation(TaCZLabs.MODID, "textures/hud/crosshair/hud.png");
+    //public final ResourceLocation HUDLoc = new ResourceLocation(TaCZLabs.MODID, "textures/hud/crosshair/hud.png");
 
     public TLCrosshair(){
 
@@ -28,7 +28,7 @@ public class TLCrosshair implements IGuiOverlay {
         guiGraphics.setColor(1,1,1,1);
         //在屏幕中央上方绘制 HUD 纹理，宽高为 32x32 像素
         //参数是含义，x坐标，y坐标，u，v坐标，宽高，uv宽高。
-        guiGraphics.blit(HUDLoc,screenWidth/2-16,screenHeight/2-64,0,0,32,32,32,32);
+        //guiGraphics.blit(HUDLoc,screenWidth/2-16,screenHeight/2-64,0,0,32,32,32,32);
     }
     //提供一个静态方法用于获取 ExampleHud 的单例对象
     public static TLCrosshair getInstance() {

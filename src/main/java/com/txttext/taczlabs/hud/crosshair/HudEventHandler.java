@@ -16,7 +16,7 @@ public class HudEventHandler {
         // 使用 event.registerAboveAll 方法将 ExampleHud 的实例注册为最高优先级的 HUD 覆盖
         // 第一个参数是一个 ResourceLocation 对象，用于指定 HUD 的唯一标识符
         // 第二个参数是 ExampleHud 的单例对象，通过 ExampleHud.getInstance() 获取
-        event.registerAboveAll(new ResourceLocation(TaCZLabs.MODID,"textures/hud/crosshair/hud.png"), TLCrosshair.getInstance());
+        //event.registerAboveAll(new ResourceLocation(TaCZLabs.MODID,"textures/hud/crosshair/hud.png"), TLCrosshair.getInstance());
     }
     /*@SubscribeEvent
     public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
