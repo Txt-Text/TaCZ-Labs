@@ -1,6 +1,7 @@
 package com.txttext.taczlabs.config.clothconfig;
 
 import com.txttext.taczlabs.config.fileconfig.HudConfig;
+import com.txttext.taczlabs.hud.crosshair.CrosshairType;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -64,16 +65,30 @@ public class HudClothConfig {
                 .setDefaultValue(1)
                 .setSaveConsumer(HudConfig.shadowOffset::set)
                 .build());
+        //扩散幅度
+        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_spread"),
+                        HudConfig.crosshairSpread.get(), 0, 60)
+                .setTooltip(Component.translatable("config.taczlabs.hud.crosshair_spread.desc"))
+                .setDefaultValue(30)
+                .setSaveConsumer(HudConfig.crosshairSpread::set)
+                .build());
         //严格按照散射值的准星扩散
         dynamicAndShadow.add(entryBuilder.startBooleanToggle(
                                 Component.translatable("config.taczlabs.hud.inaccuracy_spread"),
                                 HudConfig.inaccuracySpread.get()
                         )
-                        .setDefaultValue(true)
+                        .setDefaultValue(false)
                         .setTooltip(Component.translatable("config.taczlabs.hud.inaccuracy_spread.desc"))
                         .setSaveConsumer(HudConfig.inaccuracySpread::set)//Recommended: Called when user save the config
                         .build()
         );
+        //移速影响最大值
+        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.speed_spread"),
+                        HudConfig.speedSpread.get(), 0, 100)
+                .setTooltip(Component.translatable("config.taczlabs.hud.speed_spread.desc"))
+                .setDefaultValue(100)
+                .setSaveConsumer(HudConfig.speedSpread::set)
+                .build());
         hud.addEntry(entryBuilder.startSubCategory(Component.translatable("config.taczlabs.hud.dynamic_and_shadow"),
                         (List<AbstractConfigListEntry>)(List<?>) dynamicAndShadow
                 )

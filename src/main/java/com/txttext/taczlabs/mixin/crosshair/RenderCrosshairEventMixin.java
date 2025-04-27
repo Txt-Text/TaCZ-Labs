@@ -6,20 +6,14 @@ import com.tacz.guns.api.TimelessAPI;
 import com.tacz.guns.api.item.IGun;
 import com.tacz.guns.client.event.RenderCrosshairEvent;
 import com.tacz.guns.client.resource.index.ClientGunIndex;
-import com.tacz.guns.resource.index.CommonGunIndex;
-import com.tacz.guns.resource.pojo.data.gun.GunData;
 import com.tacz.guns.resource.pojo.data.gun.InaccuracyType;
-import com.txttext.taczlabs.config.ClientConfig;
-import com.txttext.taczlabs.config.clothconfig.CrosshairType;
+import com.txttext.taczlabs.hud.crosshair.CrosshairType;
 import com.txttext.taczlabs.config.fileconfig.HudConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.txttext.taczlabs.config.fileconfig.HudConfig.*;
-import static com.txttext.taczlabs.hud.crosshair.CrosshairRender.*;
+import static com.txttext.taczlabs.hud.crosshair.Crosshair.renderCrosshairType;
 
 @Mixin(RenderCrosshairEvent.class)
 public class RenderCrosshairEventMixin {
@@ -36,7 +30,7 @@ public class RenderCrosshairEventMixin {
             method = "renderCrosshair",
             at = @At(value = "INVOKE",
                     target = "Lcom/mojang/blaze3d/platform/Window;getGuiScaledWidth()I"),
-            remap = false,
+            //remap = false,
             cancellable = true
     )
     private static void renderTlCrosshair(GuiGraphics graphics, Window window, CallbackInfo ci){
@@ -48,7 +42,7 @@ public class RenderCrosshairEventMixin {
         float x = width / 2f;
         float y = height / 2f;
         //获取玩家实例
-        LocalPlayer player = Minecraft.getInstance().player;
+        LocalPlayer player = Minecraft.getInstance().player;//客户端的准星获取客户端实体就够了
         if (player == null) return;//玩家无效则返回
         //获取玩家手持物品，根据枪的种类判断要渲染的准星
         ItemStack gun = player.getMainHandItem();//获取ItemStack

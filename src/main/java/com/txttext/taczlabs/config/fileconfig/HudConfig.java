@@ -1,6 +1,6 @@
 package com.txttext.taczlabs.config.fileconfig;
 
-import com.txttext.taczlabs.config.clothconfig.CrosshairType;
+import com.txttext.taczlabs.hud.crosshair.CrosshairType;
 import net.minecraftforge.common.ForgeConfigSpec;
 /**客户端的 HUD 配置*/
 public class HudConfig {
@@ -15,8 +15,9 @@ public class HudConfig {
     //
     public static ForgeConfigSpec.IntValue shadowAlpha;//阴影不透明度
     public static ForgeConfigSpec.IntValue shadowOffset;//阴影偏移量
-    public static ForgeConfigSpec.DoubleValue crosshairSpread;//准星扩散（十字准星）
-    public static ForgeConfigSpec.DoubleValue shootingSpread;//开火扩散
+    public static ForgeConfigSpec.IntValue crosshairSpread;//准星扩散
+    public static ForgeConfigSpec.IntValue shootingSpread;//开火扩散
+    public static ForgeConfigSpec.IntValue speedSpread;//开火扩散
     //
     public static ForgeConfigSpec.EnumValue<CrosshairType> pistolCrosshair;//手枪准星
     public static ForgeConfigSpec.EnumValue<CrosshairType> smgCrosshair;//冲锋枪准星
@@ -69,17 +70,21 @@ public class HudConfig {
         /*准星动态扩散*/
         crosshairSpread = builder
                 .comment("Spread of crosshair, range 0.0 ~ 60.0, default 30.0 .")
-                .defineInRange("Crosshair Spread", 30.0D, 0.0D, 60.0D);
+                .defineInRange("Crosshair Spread", 30, 0, 60);
         /*准星开火扩散*/
         shootingSpread = builder
                 .comment("Spread of crosshair, range 0.0 ~ , default  .")
-                .defineInRange("Crosshair Spread", 30.0D, 0.0D, 60.0D);//TODO
+                .defineInRange("Spread Extent", 30, 0, 60);//TODO
         builder.pop();
-
         //严格基于真实散射值的准星扩散
         inaccuracySpread = builder
-                .comment("11")//TODO
-                .define("1", false);
+                .comment("Default: Bonding a combination of values such as scattering and plane velocity, for better visual experience.\nOn: Based strictly on real scattering values.")
+                .define("Diffusion strictly based on real spread", false);
+        //移速影响最大值，准星受速度影响扩散的最大值
+        speedSpread = builder
+                .comment("Maximum value of collimator spread affected by velocity, range 0 ~ 100, default 100 .")
+                .defineInRange("Max Speed Spread", 100, 0, 100);
+        builder.pop();
         /*局部设置*/
         builder.push("Local Settings");
         //准星类型

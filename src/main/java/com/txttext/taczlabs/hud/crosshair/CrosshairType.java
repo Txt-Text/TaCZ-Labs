@@ -1,4 +1,4 @@
-package com.txttext.taczlabs.config.clothconfig;
+package com.txttext.taczlabs.hud.crosshair;
 
 public enum CrosshairType{
     CROSSHAIR,//十字准星
