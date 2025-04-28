@@ -63,6 +63,7 @@ public class RenderCrosshairEventMixin {
             case "rpg"-> rpgCrosshair.get();//重武器
             default-> rifleCrosshair.get();//步枪和未知情况，未知情况按说不可能出现
         };
+        if(currentType == CrosshairType.TACZ) return;//原版准星直接渲染原版tacz
         renderCrosshairType(currentType, x, y, map, player);//渲染准星
 //        这是一个跳转循环，break在这里担当goto的作用。原理是检测到未知情况的时候跳过渲染自家准星，去渲染tacz准星。
 //        do{
