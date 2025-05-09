@@ -1,10 +1,9 @@
-package com.txttext.taczlabs.mixin.sprint_shoot;
+package com.txttext.taczlabs.mixin.sprintingshoot;
 
 import com.tacz.guns.entity.shooter.LivingEntityDrawGun;
 import com.tacz.guns.entity.shooter.LivingEntityShoot;
 import com.tacz.guns.entity.shooter.ShooterDataHolder;
 import com.txttext.taczlabs.config.fileconfig.FunctionConfig;
-import com.txttext.taczlabs.config.fileconfig.HudConfig;
 import net.minecraft.world.entity.LivingEntity;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -39,14 +38,11 @@ public abstract class LivingEntityShootMixin {
             remap = false
     )
     public float redirectSprintTimeS(ShooterDataHolder holder) {
-        float sprintTime = holder.sprintTimeS;
-        if (sprintTime > 0 && FunctionConfig.ENABLE_SPRINTING_SHOOT.get()) {//需要启用“修复跑射”配置
-            //开枪时取消疾跑（如果没有启用跑射）
-            shooter.setSprinting(false);
-            //返回0摧毁原条件判断
-            return 0;
-        }
-        //其他情况返回原值保持原有逻辑
-        return sprintTime;
+        //没有启用跑射则正常执行逻辑
+        if (!FunctionConfig.ENABLE_SPRINTING_SHOOT.get()) return holder.sprintTimeS;
+        //开枪时取消疾跑（需要启用“修复跑射”配置）
+        shooter.setSprinting(false);
+        //PlayerFireHandler.lastShootTime = System.currentTimeMillis();
+        return 0;//返回0摧毁原条件判断
     }
 }

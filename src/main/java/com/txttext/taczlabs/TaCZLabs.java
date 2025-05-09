@@ -4,7 +4,7 @@ import com.txttext.taczlabs.config.ClientConfig;
 import com.txttext.taczlabs.config.clothconfig.ClothConfig;
 import com.txttext.taczlabs.config.ServerConfig;
 import com.txttext.taczlabs.config.CommonConfig;
-//import com.txttext.taczlabs.hud.crosshair.overlay.CrosshairRegister;
+import com.txttext.taczlabs.event.shoot.PlayerFireHandler;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -47,6 +47,7 @@ public class TaCZLabs {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.init());
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.init());
         ClothConfig.register();
+//        PlayerFireHandler.register();//注册监听的开火事件
     }
 /*    public TaczlabsMain(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
@@ -88,7 +89,7 @@ public class TaCZLabs {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            // 在客户端启动时写点东西
+            PlayerFireHandler.register();//注册监听的开火事件
             //LOGGER.info("HELLO FROM CLIENT SETUP");
             //LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }

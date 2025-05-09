@@ -47,12 +47,12 @@ public class RenderCrosshairEventMixin {
         //获取玩家手持物品，根据枪的种类判断要渲染的准星
         ItemStack gun = player.getMainHandItem();//获取ItemStack
         //由于tacz前面已经检查过，这里转化时不再检查是否为枪
-        IGun igun = (IGun)gun.getItem();//转化为Item
+        IGun igun = (IGun) gun.getItem();//转化为Item
         Optional<ClientGunIndex> gunIndex = TimelessAPI.getClientGunIndex(igun.getGunId(gun));//获取枪械Index
         if (gunIndex.isEmpty()) return;
-        String type = gunIndex.get().getType();//获取枪械类型
-        Map<InaccuracyType, Float> map = gunIndex.get().getGunData().getInaccuracy();//获取散射映射表
-        //float inaccuracy = gunIndex.get().getGunData().getInaccuracy(InaccuracyType.getInaccuracyType(player));//获取扩散值
+        ClientGunIndex gunIndex1 = gunIndex.get();
+        String type = gunIndex1.getType();//获取枪械类型
+        //float inaccuracy = gunIndex1.getGunData().getInaccuracy(InaccuracyType.getInaccuracyType(player));//获取扩散值
         CrosshairType currentType = switch (type){//获取当前手持武器类型
             case "pistol"-> pistolCrosshair.get();//手枪
             case "smg"-> smgCrosshair.get();//冲锋枪 TODO:（我需要做出一个这样的准星给冲锋枪：( · )，暂且就叫它括号准星吧...）
@@ -64,8 +64,8 @@ public class RenderCrosshairEventMixin {
             default-> rifleCrosshair.get();//步枪和未知情况，未知情况按说不可能出现
         };
         if(currentType == CrosshairType.TACZ) return;//原版准星直接渲染原版tacz
-        renderCrosshairType(currentType, x, y, map, player);//渲染准星
-//        这是一个跳转循环，break在这里担当goto的作用。原理是检测到未知情况的时候跳过渲染自家准星，去渲染tacz准星。
+        renderCrosshairType(currentType, x, y, gunIndex1, player);//渲染准星
+//        break在这里担当goto
 //        do{
 //            if(currentType == null) break;
 //            renderCrosshairType(currentType, x, y, player);//渲染准星
@@ -74,15 +74,13 @@ public class RenderCrosshairEventMixin {
         ci.cancel();
     }
 
-    //给命中叉擦屁股，爆头时由于setShaderColor之后没改回来导致我的准星（所有HUD）也红了
+    //给命中叉擦屁股，爆头时由于setShaderColor之后没改回来导致我的准星（包括所有HUD）也红了
     @Inject(
             method = "renderHitMarker",
-            at = @At(
-                    value = "TAIL"
-            ),
+            at = @At(value = "TAIL"),
             remap = false
     )
     private static void taczlabs$resetShaderColor(GuiGraphics graphics, Window window, CallbackInfo ci){
-        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);//在渲染完成后重置渲染器颜色
     }
 }

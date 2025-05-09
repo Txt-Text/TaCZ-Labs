@@ -1,4 +1,4 @@
-package com.txttext.taczlabs.util;
+package com.txttext.taczlabs.hud.crosshair;
 
 import net.minecraft.util.Mth;
 

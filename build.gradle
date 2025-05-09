@@ -173,6 +173,7 @@ dependencies {
     //implementation fileTree(dir: 'lib', excludes: ['xxx.jar'], includes: ['*.jar'])
     implementation fg.deobf("curse.maven:timeless-and-classics-zero-1028108:6058563-sources-6059152")
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136")
+    implementation fg.deobf('org.apache.commons:commons-math3:3.6.1')
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

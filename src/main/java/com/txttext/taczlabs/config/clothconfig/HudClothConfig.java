@@ -65,13 +65,6 @@ public class HudClothConfig {
                 .setDefaultValue(1)
                 .setSaveConsumer(HudConfig.shadowOffset::set)
                 .build());
-        //扩散幅度
-        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_spread"),
-                        HudConfig.crosshairSpread.get(), 0, 60)
-                .setTooltip(Component.translatable("config.taczlabs.hud.crosshair_spread.desc"))
-                .setDefaultValue(30)
-                .setSaveConsumer(HudConfig.crosshairSpread::set)
-                .build());
         //严格按照散射值的准星扩散
         dynamicAndShadow.add(entryBuilder.startBooleanToggle(
                                 Component.translatable("config.taczlabs.hud.inaccuracy_spread"),
@@ -83,12 +76,27 @@ public class HudClothConfig {
                         .build()
         );
         //移速影响最大值
-        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.speed_spread"),
-                        HudConfig.speedSpread.get(), 0, 100)
-                .setTooltip(Component.translatable("config.taczlabs.hud.speed_spread.desc"))
-                .setDefaultValue(100)
-                .setSaveConsumer(HudConfig.speedSpread::set)
+//        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.speed_spread"),
+//                        HudConfig.speedSpread.get(), 0, 100)
+//                .setTooltip(Component.translatable("config.taczlabs.hud.speed_spread.desc"))
+//                .setDefaultValue(100)
+//                .setSaveConsumer(HudConfig.speedSpread::set)
+//                .build());
+        //扩散幅度
+        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.max_spread"),
+                        HudConfig.maxSpread.get(), 0, 30)
+                .setTooltip(Component.translatable("config.taczlabs.hud.max_spread.desc"))
+                .setDefaultValue(20)
+                .setSaveConsumer(HudConfig.maxSpread::set)
                 .build());
+        //开火抖动
+        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.shooting_spread"),
+                        HudConfig.shootingSpread.get(), 0 , 5)
+                .setDefaultValue(2)
+                .setTooltip(Component.translatable("config.taczlabs.hud.shooting_spread.desc"))
+                .setSaveConsumer(HudConfig.shootingSpread::set)
+                .build()
+        );
         hud.addEntry(entryBuilder.startSubCategory(Component.translatable("config.taczlabs.hud.dynamic_and_shadow"),
                         (List<AbstractConfigListEntry>)(List<?>) dynamicAndShadow
                 )

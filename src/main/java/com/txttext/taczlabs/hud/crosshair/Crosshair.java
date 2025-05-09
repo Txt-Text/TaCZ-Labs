@@ -1,31 +1,33 @@
 package com.txttext.taczlabs.hud.crosshair;
 
+import com.tacz.guns.client.resource.index.ClientGunIndex;
+import com.tacz.guns.resource.pojo.data.gun.GunData;
 import com.tacz.guns.resource.pojo.data.gun.InaccuracyType;
+import com.txttext.taczlabs.event.shoot.PlayerFireHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.Player;
 
 import java.util.Map;
 
 import static com.tacz.guns.resource.pojo.data.gun.InaccuracyType.*;
 import static com.txttext.taczlabs.config.fileconfig.HudConfig.*;
-import static com.txttext.taczlabs.config.fileconfig.HudConfig.crosshairSpread;
+import static com.txttext.taczlabs.event.shoot.PlayerFireHandler.fireSpread;
 import static com.txttext.taczlabs.hud.crosshair.CrosshairRender.*;
 
 public class Crosshair {
     private static float lastSpread = 0f;//保存上一tick的 spread
+    public static GunData gunData = null;//枪械数据
 
     //决定要渲染的准星类型
-    public static void renderCrosshairType(CrosshairType type, float x, float y, Map<InaccuracyType, Float> map, LocalPlayer player){
+    public static void renderCrosshairType(CrosshairType type, float x, float y, ClientGunIndex gunIndex, LocalPlayer player){
         //计算扩散
-        float spread = getRealSpread(type, map, player);
+        float spread = getSpread(type, gunIndex, player);
         switch (type){
             case CROSSHAIR-> drawCrosshair(x, y, spread);//绘制十字准星
             case RECT-> drawRectCrosshair(x, y, spread);//绘制方形准星
             case RIGHT_ANGLE-> drawRightAngleCrosshair(x, y, spread);//绘制直角准星
             case POINT-> drawPointCrosshair(x, y);//绘制点状准星
-            //case TACZ->
             default-> drawCrosshair(x, y, spread);//未知情况，正常情况不会触发
         }
     }
@@ -53,12 +55,16 @@ public class Crosshair {
 //    }
 
     //准星扩散值计算
-    private static float getRealSpread(CrosshairType type, Map<InaccuracyType, Float> map, LocalPlayer player) {
+    private static float getSpread(CrosshairType type, ClientGunIndex gunIndex, LocalPlayer player) {
         /*取值*/
         //获取玩家状态
         InaccuracyType playerStatus = InaccuracyType.getInaccuracyType(player);
         //获取玩家速度（XZ平面速度）
         float speed = (float) player.getDeltaMovement().horizontalDistance();
+        //
+        gunData = gunIndex.getGunData();
+        //获取散射映射表
+        Map<InaccuracyType, Float> map = gunData.getInaccuracy();
         //获取枪械的扩散值
         float stand = map.getOrDefault(STAND, 1.0f);
         float move = map.getOrDefault(MOVE, stand);//默认使用stand值避免空值
@@ -80,8 +86,7 @@ public class Crosshair {
             default-> (float) crosshairRadius.get();//点状准星和未知情况
         };
 
-        //根据状态（潜行、趴下）决定是否缩小准星默认半径
-        //（混合影响关闭则按照下面的归一化比例来）
+        //根据状态（潜行、趴下）决定是否缩小准星默认半径（混合影响关闭则按照下面的归一化比例来）
         float status = inaccuracySpread.get() ?
             switch (playerStatus){//开启了严格按照扩散值
                 case SNEAK -> factorSneak;
@@ -94,30 +99,15 @@ public class Crosshair {
                 case LIE -> 0.5f;
                 default -> 1f;
             };
-//        float status;
-//        if(inaccuracySpread.get()){//开启了严格按照扩散值
-//            status = switch (playerStatus){
-//                case SNEAK -> factorSneak;
-//                case LIE -> factorLie;
-//                default -> 1f;
-//            };
-//        }
-//        else{
-//            status = switch (playerStatus){
-//                case SNEAK -> 0.7f;
-//                case LIE -> 0.5f;
-//                default -> 1f;
-//            };
-//        }
 
-
-        //速度阈值保护。确认混合影响配置关闭。默认限制在 [0,1]，根据配置决定要不要调小
-        float speedFactor = !inaccuracySpread.get() ? Mth.clamp(speed, 0f, speedSpread.get() / 100f) : 0;
+        //速度阈值保护。确认混合影响配置关闭。限制在 [0,1]
+        float speedFactor = !inaccuracySpread.get() ? Mth.clamp(speed, 0f, 1f) * 20 : 0;
 
         //获取移动/站立时的实际扩散值
         //阈值可以高点，如果你想要速度较小的时候不扩散
         //不*2变化就太小了
-        float raw = speed > 0.01f ? factorMove*2 : 1f;//因为tacz的状态极其不可靠因此自己判断
+        //需要准星扩散值不为0
+        float raw = /*maxSpread.get() != 0 &&*/ speed > 0.01f ? factorMove*2 : 1f;//tacz的状态极其不可靠因此自己判断
 
         /*
         //归一化扩散（以站立为基准）
@@ -129,16 +119,18 @@ public class Crosshair {
         * */
 
         //结合扩散和速度影响，计算目标准星扩散
-        //基础值 = 默认准星半径 * 由潜行和趴下影响的倍率
-        //基础值 + （状态扩散+移速）*扩散倍率
-        float targetSpread = (
-                (radius * status * raw) + speedFactor * crosshairSpread.get()//乘raw
-                //(radius * status) + speedFactor * crosshairSpread.get() + raw//加raw的话，获取raw的时候应该获取move和stand
-        );//从配置获取扩散倍率
+        //baseSpread（基础扩散） = 默认准星半径 * 由潜行和趴下影响的倍率
+        float baseSpread = radius * status * raw;//基础扩散
+        //(radius * status) + speedFactor * crosshairSpread.get() + raw//如果采用加raw的算法，获取raw的时候应该获取move和stand
+        //targetSpread = 基础扩散 + 速度影响 + 开火抖动
+        float targetSpread = Math.min(baseSpread + speedFactor, radius + maxSpread.get()) + fireSpread;//限制在最大扩散范围内（不限制开火扩散），加上radius是需要不受默认半径影响
+
+        //每帧自然衰减 fireSpread，防止一直扩张
+        PlayerFireHandler.fireSpread = Mth.lerp(0.15f, PlayerFireHandler.fireSpread, 0f);
 
         //平滑靠近当前 targetSpread，不频繁重置 lastTargetSpread
         float tickDelta = Mth.clamp(Minecraft.getInstance().getFrameTime(), 0.001f, 0.05f);//安全保护，极低帧率或者暂停菜单的场景可能让tickDelta很奇怪
-        float smoothing = 1.5f;
+        float smoothing = 3f;
         float lerpAlpha = 1 - (float) Math.exp(-smoothing * tickDelta);
         float spread = Mth.lerp(lerpAlpha, lastSpread, targetSpread);
         lastSpread = spread;

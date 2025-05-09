@@ -63,6 +63,12 @@ ordering = "NONE"
 side = "BOTH"
 # Dependencies
 [[dependencies."${mod_id}"]]
+modId = "tacz"
+mandatory = true
+versionRange = "[1.0.0,)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies."${mod_id}"]]
 modId = "cloth_config"
 mandatory = false
 versionRange = "[11.1.136,)"
