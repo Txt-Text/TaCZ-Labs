@@ -101,17 +101,17 @@ minecraft {
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
-        server {
-            property 'forge.enabledGameTestNamespaces', mod_id
-            args '--nogui'
-        }
+//        server {
+//            property 'forge.enabledGameTestNamespaces', mod_id
+//            args '--nogui'
+//        }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
         // By default, the server will crash when no gametests are provided.
         // The gametest system is also enabled by default for other run configs under the /test command.
-        gameTestServer {
-            property 'forge.enabledGameTestNamespaces', mod_id
-        }
+//        gameTestServer {
+//            property 'forge.enabledGameTestNamespaces', mod_id
+//        }
 
         data {
             // example of overriding the workingDirectory set in configureEach above

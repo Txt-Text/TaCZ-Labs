@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "taczlabs.refmap.json",
   "mixins": [
-    "sprintingshoot.LivingEntityShootMixin"
+//    "sprintingshoot.LivingEntityShootMixin"
   ],
   "client": [
     "crosshair.RenderCrosshairEventMixin",

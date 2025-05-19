@@ -32,7 +32,7 @@ public class Crosshair {
         }
     }
 
-    //虚拟的准星扩散，带来最好的视觉体验（但是不考虑扩散）
+    //虚拟的准星扩散（不考虑扩散）
 //    private static float getVisalSpread(/*Local*/Player player){
 //        /*获取玩家速度*/
 //        //PlayerMovementHelper.MovementInfo info = PlayerMovementHelper.getMovementInfo(player);
@@ -61,7 +61,6 @@ public class Crosshair {
         InaccuracyType playerStatus = InaccuracyType.getInaccuracyType(player);
         //获取玩家速度（XZ平面速度）
         float speed = (float) player.getDeltaMovement().horizontalDistance();
-        //
         gunData = gunIndex.getGunData();
         //获取散射映射表
         Map<InaccuracyType, Float> map = gunData.getInaccuracy();
@@ -101,13 +100,13 @@ public class Crosshair {
             };
 
         //速度阈值保护。确认混合影响配置关闭。限制在 [0,1]
-        float speedFactor = !inaccuracySpread.get() ? Mth.clamp(speed, 0f, 1f) * 20 : 0;
+        float speedFactor = !inaccuracySpread.get() ? Mth.clamp(speed, 0f, 1f) * 50 : 0;
 
         //获取移动/站立时的实际扩散值
         //阈值可以高点，如果你想要速度较小的时候不扩散
         //不*2变化就太小了
         //需要准星扩散值不为0
-        float raw = /*maxSpread.get() != 0 &&*/ speed > 0.01f ? factorMove*2 : 1f;//tacz的状态极其不可靠因此自己判断
+        float raw = /*maxSpread.get() != 0 &&*/ speed > 0f ? factorMove*2f : 1f;//tacz的状态极其不可靠因此自己判断
 
         /*
         //归一化扩散（以站立为基准）
@@ -129,10 +128,11 @@ public class Crosshair {
         PlayerFireHandler.fireSpread = Mth.lerp(0.15f, PlayerFireHandler.fireSpread, 0f);
 
         //平滑靠近当前 targetSpread，不频繁重置 lastTargetSpread
+        //每帧的时间进度（一般在 0.01~0.05之间），帧率越高越小
         float tickDelta = Mth.clamp(Minecraft.getInstance().getFrameTime(), 0.001f, 0.05f);//安全保护，极低帧率或者暂停菜单的场景可能让tickDelta很奇怪
-        float smoothing = 3f;
-        float lerpAlpha = 1 - (float) Math.exp(-smoothing * tickDelta);
-        float spread = Mth.lerp(lerpAlpha, lastSpread, targetSpread);
+        float smoothing = 3f;//控制 回缩/插值 速度，数值越大靠得越快
+        float lerpAlpha = 1 - (float) Math.exp(-smoothing * tickDelta);//每帧的插值系数，根据 smoothing 和 tickDelta 动态生成
+        float spread = Mth.lerp(lerpAlpha, lastSpread, targetSpread);//实现从 lastSpread 向 targetSpread 过渡
         lastSpread = spread;
         return spread;
 //        一个建议优化（可选）

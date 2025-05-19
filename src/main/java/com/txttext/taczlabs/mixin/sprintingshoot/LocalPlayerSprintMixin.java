@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 @Mixin(LocalPlayerSprint.class)
-@SuppressWarnings("all")
 public abstract class LocalPlayerSprintMixin {
     @Shadow(remap = false)
     private final LocalPlayerDataHolder data;
@@ -32,9 +31,9 @@ public abstract class LocalPlayerSprintMixin {
             cancellable = true
     )
     public void Taczlzbs$getProcessedSprintStatus(boolean sprinting, CallbackInfoReturnable<Boolean> cir){
-        IGunOperator gunOperator = IGunOperator.fromLivingEntity(player);
+        //IGunOperator gunOperator = IGunOperator.fromLivingEntity(player);
             //按键未释放则不展示冲刺动画，防止动画互相覆盖
-            if(ShootKeyHandler.isMouseDown/*System.currentTimeMillis() - lastShootTime < 300*/){//射击后300ms内仍视为射击状态
+            if(ShootKeyHandler.isMouseDown){
                 cir.setReturnValue(false);
             }
         }

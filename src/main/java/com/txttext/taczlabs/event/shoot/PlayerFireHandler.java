@@ -6,22 +6,20 @@ import com.tacz.guns.resource.pojo.data.gun.GunRecoilKeyFrame;
 import com.txttext.taczlabs.config.fileconfig.HudConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+import static com.txttext.taczlabs.TaCZLabs.MODID;
 import static com.txttext.taczlabs.hud.crosshair.Crosshair.gunData;
 
-@OnlyIn(Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class PlayerFireHandler {
     public static float fireSpread;
 
-    public static void register() {
-        MinecraftForge.EVENT_BUS.register(new PlayerFireHandler());
-    }
+//    public static void register() {
+//        MinecraftForge.EVENT_BUS.register(new PlayerFireHandler());
+//    }
 
     @SubscribeEvent
     public void onPlayerFire(GunFireEvent event){

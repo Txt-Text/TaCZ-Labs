@@ -1,5 +1,6 @@
 package com.txttext.taczlabs.config;
 
+import com.txttext.taczlabs.config.fileconfig.FunctionConfig;
 import com.txttext.taczlabs.config.fileconfig.HudConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
 /*
@@ -9,6 +10,7 @@ public class ClientConfig {
     public static ForgeConfigSpec init() {
         ForgeConfigSpec.Builder client = new ForgeConfigSpec.Builder();
         HudConfig.init(client);//gui相关的config
+        FunctionConfig.init(client);//功能性相关的config
         return client.build();
     }
 }

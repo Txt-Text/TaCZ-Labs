@@ -1,8 +1,6 @@
 package com.txttext.taczlabs.config.clothconfig;
 
 import com.txttext.taczlabs.config.ClientConfig;
-import com.txttext.taczlabs.config.CommonConfig;
-import com.txttext.taczlabs.config.ServerConfig;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.gui.screens.Screen;

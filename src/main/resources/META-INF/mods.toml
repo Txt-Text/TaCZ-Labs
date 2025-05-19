@@ -1,18 +1,6 @@
-# This is an example mods.toml file. It contains the data relating to the loading mods.
-# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
-# The overall format is standard TOML format, v0.5.0.
-# Note that there are a couple of TOML lists in this file.
-# Find more information on toml format here:  https://github.com/toml-lang/toml
-# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
 modLoader = "javafml" #mandatory
-# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion = "${loader_version_range}" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
-# The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
-# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
+loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
-# A URL to refer people to when problems occur with this mod
-#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
-# A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
 modId = "${mod_id}" #mandatory
@@ -30,6 +18,7 @@ logoFile="icon.png" #optional
 #credits="Thanks for this example mod goes to Java" #optional
 # A text field displayed in the mod UI
 authors = "${mod_authors}" #optional
+side = "CLIENT"
 # Display Test controls the display for your mod in the server connection screen
 # MATCH_VERSION means that your mod will cause a red X if the versions on client and server differ. This is the default behaviour and should be what you choose if you have server and client elements to your mod.
 # IGNORE_SERVER_VERSION means that your mod will not cause a red X if it's present on the server but not on the client. This is what you should use if you're a server only mod.
