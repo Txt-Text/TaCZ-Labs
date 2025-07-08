@@ -183,6 +183,9 @@ public class HudClothConfig {
                         .setSaveConsumer(HudConfig.rpgCrosshair::set)
                         .build()
         );
+        //自定义准星列表
+//        List<String> configList = new ArrayList<>(HudConfig.customCrosshairs.get());
+//        crosshairType.add(entryBuilder.)
         //注册折叠选项
         hud.addEntry(entryBuilder.startSubCategory(Component.translatable("config.taczlabs.hud.crosshair.crosshair_type"),
                         (List<AbstractConfigListEntry>)(List<?>)crosshairType

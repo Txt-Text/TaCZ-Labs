@@ -2,6 +2,9 @@ package com.txttext.taczlabs.config.fileconfig;
 
 import com.txttext.taczlabs.hud.crosshair.CrosshairType;
 import net.minecraftforge.common.ForgeConfigSpec;
+
+import java.util.List;
+
 /**客户端的 HUD 配置*/
 public class HudConfig {
     public static ForgeConfigSpec.BooleanValue ENABLE_TL_CROSSHAIR;//是否启用本模组的准星
@@ -26,6 +29,7 @@ public class HudConfig {
     public static ForgeConfigSpec.EnumValue<CrosshairType> shotgunCrosshair;//霰弹枪准星
     public static ForgeConfigSpec.EnumValue<CrosshairType> sniperCrosshair;//狙击枪准星
     public static ForgeConfigSpec.EnumValue<CrosshairType> rpgCrosshair;//重武器准星
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> customCrosshairs;//自定义名单（需要 GunID）
 
     /*局部设置*/
     public static ForgeConfigSpec.IntValue crosshairRadius;//准星基础半径（十字准星）
@@ -52,7 +56,7 @@ public class HudConfig {
         builder.push("Global Settings");
         /*准星颜色值（RGBA）*/
         color = builder
-                .comment("Crosshair RGBA HEX color, format is 0xAARRGGBB.")
+                .comment("Crosshair RGBA HEX color, format: 0xAARRGGBB.")
                 .defineInRange("Crosshair Color", 0xE6FFFFCC, Integer.MIN_VALUE, Integer.MAX_VALUE);
         A = builder.defineInRange("A", 0xE6, 0, 255);
         R = builder.defineInRange("R", 0xFF, 0, 255);
@@ -100,6 +104,18 @@ public class HudConfig {
         sniperCrosshair = builder.comment("Crosshair of Sniper").defineEnum("Sniper", CrosshairType.CROSSHAIR);//狙击枪
         shotgunCrosshair = builder.comment("Crosshair of Shotgun").defineEnum("Shotgun", CrosshairType.RECT);//霰弹枪
         rpgCrosshair = builder.comment("Crosshair of Heavy Weapon").defineEnum("Heavy Weapon", CrosshairType.RECT);//重武器
+        //自定义名单
+//        customCrosshairs = builder
+//                .comment("""
+//            Custom list of gun and crosshair.
+//            Format: "GunID=CrosshairType"
+//            Example: "tacz:example=CROSSHAIR"
+//            """)
+//                .defineListAllowEmpty(
+//                        List.of("custom_crosshairs"),
+//                        List.of("tacz:example=CROSSHAIR"),
+//                        obj -> obj instanceof String && ((String) obj).contains("=")
+//                );
         builder.pop();
 
         builder.push("Crosshair Properties");

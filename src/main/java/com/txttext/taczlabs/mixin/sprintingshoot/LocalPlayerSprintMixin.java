@@ -32,10 +32,10 @@ public abstract class LocalPlayerSprintMixin {
             cancellable = true
     )
     public void Taczlzbs$getProcessedSprintStatus(boolean sprinting, CallbackInfoReturnable<Boolean> cir){
-        IGunOperator gunOperator = IGunOperator.fromLivingEntity(player);
-            //按键未释放则不展示冲刺动画，防止动画互相覆盖
-            if(ShootKeyHandler.isMouseDown/*System.currentTimeMillis() - lastShootTime < 300*/){//射击后300ms内仍视为射击状态
-                cir.setReturnValue(false);
-            }
+        //IGunOperator gunOperator = IGunOperator.fromLivingEntity(player);
+        //按键未释放则不展示冲刺动画，防止动画互相覆盖
+        if(ShootKeyHandler.isMouseDown/*System.currentTimeMillis() - lastShootTime < 300*/){//射击后300ms内仍视为射击状态
+            cir.setReturnValue(false);
         }
+    }
 }

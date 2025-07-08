@@ -28,7 +28,8 @@ import static com.txttext.taczlabs.hud.crosshair.Crosshair.renderCrosshairType;
 public class RenderCrosshairEventMixin {
     @Inject(
             method = "renderCrosshair",
-            at = @At(value = "INVOKE",
+            at = @At(
+                    value = "INVOKE",
                     target = "Lcom/mojang/blaze3d/platform/Window;getGuiScaledWidth()I"),
             //remap = false,
             cancellable = true
@@ -55,10 +56,10 @@ public class RenderCrosshairEventMixin {
         //float inaccuracy = gunIndex1.getGunData().getInaccuracy(InaccuracyType.getInaccuracyType(player));//获取扩散值
         CrosshairType currentType = switch (type){//获取当前手持武器类型
             case "pistol"-> pistolCrosshair.get();//手枪
-            case "smg"-> smgCrosshair.get();//冲锋枪 TODO:（我需要做出一个这样的准星给冲锋枪：( · )，暂且就叫它括号准星吧...）
+            case "smg"-> smgCrosshair.get();//冲锋枪 TODO：做出一个这样的括号准星给冲锋枪：( · )
             //case "rifle"-> rifleCrosshair.get();//步枪
             case "mg"-> mgCrosshair.get();//机枪
-            case "shotgun"-> shotgunCrosshair.get();//霰弹枪 TODO:（如果可以，我会把霰弹枪的圆形准星做进去...）
+            case "shotgun"-> shotgunCrosshair.get();//霰弹枪 TODO：把霰弹枪的圆形准星做进去
             case "sniper"-> sniperCrosshair.get();//狙击枪
             case "rpg"-> rpgCrosshair.get();//重武器
             default-> rifleCrosshair.get();//步枪和未知情况，未知情况按说不可能出现
@@ -74,7 +75,7 @@ public class RenderCrosshairEventMixin {
         ci.cancel();
     }
 
-    //给命中叉擦屁股，爆头时由于setShaderColor之后没改回来导致我的准星（包括所有HUD）也红了
+    //给命中叉擦屁股，爆头时由于 setShaderColor 之后没改回来导致我的准星包括所有 HUD 也会一起变红
     @Inject(
             method = "renderHitMarker",
             at = @At(value = "TAIL"),
