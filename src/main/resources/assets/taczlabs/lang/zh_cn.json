@@ -24,8 +24,8 @@
   "config.taczlabs.hud.shooting_spread.desc": "开火时根据后坐力，准直的扩散倍数。范围：0 ~ 5，默认值：2。",
   "config.taczlabs.hud.speed_spread": "移速影响最大值",
   "config.taczlabs.hud.speed_spread.desc": "准星扩散受速度影响的最大值。范围：0 ~ 100，默认值：100。\n仅在关闭“严格基于真实散射的准星扩散”时生效。",
-  "config.taczlabs.hud.inaccuracy_spread": "严格基于真实散射的准星扩散",
-  "config.taczlabs.hud.inaccuracy_spread.desc": "默认：结合散射值及平面速度等综合数值的扩散，带来更好的视觉体验。\n开：严格按照真实散射值的扩散。",
+  "config.taczlabs.hud.inaccuracy_spread": "严格基于真实散射值的准星扩散",
+  "config.taczlabs.hud.inaccuracy_spread.desc": "开启时将严格按照真实散射值显示准星扩散，关闭时将额外结合平面速度等综合数值。\n",
   "config.taczlabs.hud.crosshair.local_settings": "局部设置",
   "config.taczlabs.hud.crosshair.crosshair_type": "准星类型",
   "config.taczlabs.hud.crosshair.crosshair_type.desc": "配置不同枪械使用的准星",
@@ -48,6 +48,7 @@
   "config.taczlabs.hud.crosshair.right_angle": "直角准星",
   "config.taczlabs.hud.crosshair.rect": "方形准星",
   "config.taczlabs.hud.crosshair.circle": "圆形准星",
+  "config.taczlabs.hud.crosshair.arc": "括号准星",
   "config.taczlabs.hud.crosshair.point": "点状准星",
   "config.taczlabs.hud.crosshair.tacz": "TaCZ 原版准星",
 

@@ -3,10 +3,11 @@ package com.txttext.taczlabs.mixin.crosshair;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tacz.guns.api.TimelessAPI;
+import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.api.item.IGun;
 import com.tacz.guns.client.event.RenderCrosshairEvent;
 import com.tacz.guns.client.resource.index.ClientGunIndex;
-import com.tacz.guns.resource.pojo.data.gun.InaccuracyType;
+import com.txttext.taczlabs.hud.crosshair.Crosshair;
 import com.txttext.taczlabs.hud.crosshair.CrosshairType;
 import com.txttext.taczlabs.config.fileconfig.HudConfig;
 import net.minecraft.client.Minecraft;
@@ -18,11 +19,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Map;
 import java.util.Optional;
 
 import static com.txttext.taczlabs.config.fileconfig.HudConfig.*;
-import static com.txttext.taczlabs.hud.crosshair.Crosshair.renderCrosshairType;
 
 @Mixin(RenderCrosshairEvent.class)
 public class RenderCrosshairEventMixin {
@@ -45,6 +44,9 @@ public class RenderCrosshairEventMixin {
         //获取玩家实例
         LocalPlayer player = Minecraft.getInstance().player;//客户端的准星获取客户端实体就够了
         if (player == null) return;//玩家无效则返回
+        IGunOperator gunOperator = IGunOperator.fromLivingEntity(player);
+        //在瞄准时不进行计算
+        if(gunOperator.getSynIsAiming()) return;
         //获取玩家手持物品，根据枪的种类判断要渲染的准星
         ItemStack gun = player.getMainHandItem();//获取ItemStack
         //由于tacz前面已经检查过，这里转化时不再检查是否为枪
@@ -65,7 +67,7 @@ public class RenderCrosshairEventMixin {
             default-> rifleCrosshair.get();//步枪和未知情况，未知情况按说不可能出现
         };
         if(currentType == CrosshairType.TACZ) return;//原版准星直接渲染原版tacz
-        renderCrosshairType(currentType, x, y, gunIndex1, player);//渲染准星
+        Crosshair.renderCrosshair(graphics, currentType, x, y, gunIndex1, player);//渲染准星
 //        break在这里担当goto
 //        do{
 //            if(currentType == null) break;

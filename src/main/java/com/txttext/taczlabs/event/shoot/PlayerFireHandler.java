@@ -6,8 +6,6 @@ import com.tacz.guns.resource.pojo.data.gun.GunRecoilKeyFrame;
 import com.txttext.taczlabs.config.fileconfig.HudConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,7 +15,7 @@ import static com.txttext.taczlabs.hud.crosshair.Crosshair.gunData;
 
 @OnlyIn(Dist.CLIENT)
 public class PlayerFireHandler {
-    public static float fireSpread;
+    private static float fireSpread;
 
     public static void register() {
         MinecraftForge.EVENT_BUS.register(new PlayerFireHandler());
@@ -25,7 +23,7 @@ public class PlayerFireHandler {
 
     @SubscribeEvent
     public void onPlayerFire(GunFireEvent event){
-        //这个事件在所有玩家开枪时触发，因此须区分开枪者是否为本地玩家（只响应本地玩家自己的事件），避免多人游戏中同步到其他人
+        //这个事件在所有玩家开枪时触发，因此须区分开枪者是否为本地玩家来只响应自己的事件，避免多人游戏中同步到其他人
         if(!event.getLogicalSide().isClient()) return;
         LocalPlayer player = Minecraft.getInstance().player;
         if(event.getShooter() != player) return;
@@ -49,6 +47,14 @@ public class PlayerFireHandler {
             }
         }
         return maxKick;
+    }
+
+    public static float getFireSpread(){
+        return fireSpread;
+    }
+
+    public static void setFireSpread(float spread){
+        fireSpread = spread;
     }
 //        // 获取 keyframe（用来取第一个时间点的实际后坐力）
 //        GunRecoilKeyFrame[] pitchFrames = recoil.getPitch();

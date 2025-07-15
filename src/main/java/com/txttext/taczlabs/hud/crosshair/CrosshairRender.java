@@ -1,11 +1,10 @@
 package com.txttext.taczlabs.hud.crosshair;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import org.joml.Matrix4f;
 
 import java.util.List;
 import static com.txttext.taczlabs.config.fileconfig.HudConfig.*;
@@ -25,10 +24,15 @@ public class CrosshairRender {
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-        float a = (color >> 24 & 255) / 255f;
-        float r = (color >> 16 & 255) / 255f;
-        float g = (color >> 8 & 255) / 255f;
-        float b = (color & 255) / 255f;
+        List<Float> argb = Argb(color);
+        float a = argb.get(0);
+        float r = argb.get(1);
+        float g = argb.get(2);
+        float b = argb.get(3);
+//        float a = (color >> 24 & 255) / 255.0f;
+//        float r = (color >> 16 & 255) / 255.0f;
+//        float g = (color >> 8 & 255) / 255.0f;
+//        float b = (color & 255) / 255.0f;
 
         //自动排序坐标
         float left = Math.min(x1, x2);
@@ -46,6 +50,31 @@ public class CrosshairRender {
         buffer.vertex(left, top, 0).color(r, g, b, a).endVertex();
         tesselator.end();
     }
+
+    /**
+     * 绘制半圆
+     */
+    public static void drawArc(PoseStack poseStack, double cx, double cy, double radius, float startAngle, float endAngle, int segments, int color) {
+        Matrix4f matrix = poseStack.last().pose();
+        List<Float> argb = Argb(color);
+        float a = argb.get(0);
+        float r = argb.get(1);
+        float g = argb.get(2);
+        float b = argb.get(3);
+
+        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
+        buffer.begin(VertexFormat.Mode.LINE_STRIP, DefaultVertexFormat.POSITION_COLOR);
+
+        for (int i = 0; i <= segments; i++) {
+            float angle = startAngle + (endAngle - startAngle) * i / segments;
+            double x = cx + Math.cos(Math.toRadians(angle)) * radius;
+            double y = cy + Math.sin(Math.toRadians(angle)) * radius;
+            buffer.vertex(matrix, (float)x, (float)y, 0).color(r, g, b, a).endVertex();
+        }
+
+        BufferUploader.drawWithShader(buffer.end());
+    }
+
 
     /**
      * 绘制具有阴影的矩形线条（用于准星）
@@ -71,6 +100,11 @@ public class CrosshairRender {
     public static void drawLineWithShadow(List<Line> lines){
         drawLineWithShadow(lines, (shadowAlpha.get() & 0xFF) << 24);//将阴影值转成0xAA000000格式
     }
+
+    public static void drawArcWithShadow(){
+
+    }
+
 
     /*绘制各种准星*/
     /// 绘制十字准星
@@ -111,7 +145,7 @@ public class CrosshairRender {
         );
 
         drawLineWithShadow(lines);
-        drawPointCrosshair(x, y);//绘制点状准星
+        drawDot(x, y);//绘制点状准星
     }
 //    public static void drawCrosshair(float x, float y, float spread) {
 //        drawCrosshair(x, y, 6.0f, 0.5f, spread);
@@ -217,7 +251,23 @@ public class CrosshairRender {
                         y + lineLength)
         );
         drawLineWithShadow(lines);
-        drawPointCrosshair(x, y);//绘制点状准星
+        drawDot(x, y);//绘制点状准星
+    }
+
+    //centerX,centerY
+    public static void drawArcCrosshair(GuiGraphics graphics, float x, float y, float spread){
+        int color = 0xFFFFFFFF; // 白色
+        PoseStack poseStack = graphics.pose();
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        // 中心点
+        drawDot(x, y); // 半径2的点，可自行封装
+
+        // 左半圆括号：从180°到360°（开口向右）
+        drawArc(poseStack, x - 6, y, 5, 180f, 360f, 32, color);
+
+        // 右半圆括号：从0°到180°（开口向左）
+        drawArc(poseStack, x + 6, y, 5, 0f, 180f, 32, color);
     }
 //    public static void drawRectCrosshair(float x, float y, float spread) {
 //        drawRectCrosshair(x, y, 6.0f, 1.0f, spread);
@@ -228,7 +278,7 @@ public class CrosshairRender {
     /// @param y 屏幕中心的高
     /// @apiNote 固定绘制屏幕中心 2x2 的像素点，里面的数值不能动
     ///（暂时不打算做调节准星大小）
-    public static void drawPointCrosshair(float x, float y){
+    public static void drawDot(float x, float y){
         List<Line> lines = List.of(new Line(x - 0.5F, y - 0.5F, x + 0.5F, y + 0.5F));
         drawLineWithShadow(lines);
     }
@@ -237,11 +287,20 @@ public class CrosshairRender {
     /// @param x 屏幕中心的宽
     /// @param y 屏幕中心的高
     /// @apiNote 固定绘制屏幕中心 2x4 的交叉像素点，里面的数值不能动
-    public static void drawPointCrosshair2(float x, float y){
+    public static void drawDot2(float x, float y){
         List<Line> lines = List.of(
                 new Line(x - 0.5F, y - 1.0F, x + 0.5F, y + 1.0F),
                 new Line(x - 1.0F, y - 0.5F, x + 1.0F, y + 0.5F)
         );
         drawLineWithShadow(lines);
+    }
+
+    public static List<Float> Argb(int color){
+        return List.of(
+                (color >> 24 & 255) / 255.0f,
+                (color >> 16 & 255) / 255.0f,
+                (color >> 8 & 255) / 255.0f,
+                (color & 255) / 255.0f
+        );
     }
 }

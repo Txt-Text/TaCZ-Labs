@@ -41,8 +41,8 @@ public abstract class LivingEntityShootMixin {
         //没有启用跑射则正常执行逻辑
         if (!FunctionConfig.ENABLE_SPRINTING_SHOOT.get()) return holder.sprintTimeS;
         //开枪时取消疾跑（需要启用“修复跑射”配置）
-        shooter.setSprinting(false);
+        //shooter.setSprinting(false);
         //PlayerFireHandler.lastShootTime = System.currentTimeMillis();
-        return 0;//返回0摧毁原条件判断
+        return 0.0F;//返回0摧毁原条件判断
     }
 }
