@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(LivingEntityShoot.class)
-@SuppressWarnings("all")
+@SuppressWarnings("ShadowModifiers")
 public abstract class LivingEntityShootMixin {
     /*target是控制服务端开火事件的类*/
     @Shadow(remap = false)
@@ -38,11 +38,10 @@ public abstract class LivingEntityShootMixin {
             remap = false
     )
     public float redirectSprintTimeS(ShooterDataHolder holder) {
-        //没有启用跑射则正常执行逻辑
+        //没有启用跑射正常执行逻辑
         if (!FunctionConfig.ENABLE_SPRINTING_SHOOT.get()) return holder.sprintTimeS;
         //开枪时取消疾跑（需要启用“修复跑射”配置）
         //shooter.setSprinting(false);
-        //PlayerFireHandler.lastShootTime = System.currentTimeMillis();
         return 0.0F;//返回0摧毁原条件判断
     }
 }

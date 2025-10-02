@@ -11,7 +11,6 @@
     "crosshair.RenderCrosshairEventMixin",
     "sprintingshoot.LocalPlayerShootMixin",
     "sprintingshoot.LocalPlayerSprintMixin",
-    "sprintingshoot.ShootKeyMixin"
   ],
   "server": [
   ],

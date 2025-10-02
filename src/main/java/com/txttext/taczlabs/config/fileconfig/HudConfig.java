@@ -19,8 +19,8 @@ public class HudConfig {
     public static ForgeConfigSpec.IntValue shadowAlpha;//阴影不透明度
     public static ForgeConfigSpec.IntValue shadowOffset;//阴影偏移量
     public static ForgeConfigSpec.IntValue maxSpread;//最大准星扩散半径
+    public static ForgeConfigSpec.IntValue animSpeed;//动画速度
     public static ForgeConfigSpec.IntValue shootingSpread;//开火扩散
-    //public static ForgeConfigSpec.IntValue speedSpread;//速度扩散
     //
     public static ForgeConfigSpec.EnumValue<CrosshairType> pistolCrosshair;//手枪准星
     public static ForgeConfigSpec.EnumValue<CrosshairType> smgCrosshair;//冲锋枪准星
@@ -71,23 +71,23 @@ public class HudConfig {
         shadowOffset = builder
                 .comment("Shadow offset of crosshair, range 1 ~ 6, default 1 .")
                 .defineInRange("Shadow Offset", 1, 0, 3);
-//        /*准星开火扩散*/
-//        shootingSpread = builder
-//                .comment("Spread of crosshair, range 0.0 ~ , default  .")
-//                .defineInRange("Spread Extent", 30, 0, 60);
         builder.pop();
         //严格基于真实散射值的准星扩散
         inaccuracySpread = builder
-                .comment("Default: Bonding a combination of values such as scattering and plane velocity, for better visual experience.\nOn: Based strictly on real scattering values.")
-                .define("Diffusion strictly based on real spread", false);
+                .comment("Default: Bonding a combination of values such as scattering and plane velocity.\nOn: Based strictly on real scattering values.")
+                .define("Diffusion strictly based on real spread", true);
 //        //移速影响最大值，准星受速度影响扩散的最大值
 //        speedSpread = builder
 //                .comment("Maximum value of collimator spread affected by velocity, range 0 ~ 100, default 100 .")
 //                .defineInRange("Max Speed Spread", 100, 0, 100);
-        /*最大准星扩散*/
+        /*最大扩散半径*/
         maxSpread = builder
-                .comment("Max spread of crosshair, range 0.0 ~ 30.0, default 20.0 .")
-                .defineInRange("Crosshair Max Spread", 20, 0, 30);
+                .comment("Max spread radius, range 0 ~ 50, default 20.")
+                .defineInRange("Crosshair Max Spread", 20, 0, 50);
+        //准星动画速度
+        animSpeed = builder
+                .comment("Speed of crosshair anim. range 5 ~ 30, default 12.")
+                .defineInRange("Anim Speed", 12, 5, 30);
         //开火抖动
         shootingSpread = builder
                 .comment("Magnitude of collimation spread according to the recoil at the time of firing, range 0 ~ 5, default 2.")

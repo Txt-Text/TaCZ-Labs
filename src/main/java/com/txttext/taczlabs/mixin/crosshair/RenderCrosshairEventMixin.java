@@ -68,12 +68,6 @@ public class RenderCrosshairEventMixin {
         };
         if(currentType == CrosshairType.TACZ) return;//原版准星直接渲染原版tacz
         Crosshair.renderCrosshair(graphics, currentType, x, y, gunIndex1, player);//渲染准星
-//        break在这里担当goto
-//        do{
-//            if(currentType == null) break;
-//            renderCrosshairType(currentType, x, y, player);//渲染准星
-//            ci.cancel();
-//        }while (false);
         ci.cancel();
     }
 

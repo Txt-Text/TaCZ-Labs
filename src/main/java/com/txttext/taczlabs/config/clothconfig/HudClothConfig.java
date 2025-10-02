@@ -70,7 +70,7 @@ public class HudClothConfig {
                                 Component.translatable("config.taczlabs.hud.inaccuracy_spread"),
                                 HudConfig.inaccuracySpread.get()
                         )
-                        .setDefaultValue(false)
+                        .setDefaultValue(true)
                         .setTooltip(Component.translatable("config.taczlabs.hud.inaccuracy_spread.desc"))
                         .setSaveConsumer(HudConfig.inaccuracySpread::set)//Recommended: Called when user save the config
                         .build()
@@ -84,11 +84,19 @@ public class HudClothConfig {
 //                .build());
         //扩散幅度
         dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.max_spread"),
-                        HudConfig.maxSpread.get(), 0, 30)
+                        HudConfig.maxSpread.get(), 0, 50)
                 .setTooltip(Component.translatable("config.taczlabs.hud.max_spread.desc"))
                 .setDefaultValue(20)
                 .setSaveConsumer(HudConfig.maxSpread::set)
                 .build());
+        //动画速度
+        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.anim_speed"),
+                        HudConfig.animSpeed.get(), 5 , 30)
+                .setDefaultValue(12)
+                .setTooltip(Component.translatable("config.taczlabs.hud.anim_speed.desc"))
+                .setSaveConsumer(HudConfig.animSpeed::set)
+                .build()
+        );
         //开火抖动
         dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.shooting_spread"),
                         HudConfig.shootingSpread.get(), 0 , 5)

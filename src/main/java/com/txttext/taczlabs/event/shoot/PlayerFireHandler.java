@@ -1,9 +1,11 @@
 package com.txttext.taczlabs.event.shoot;
 
 import com.tacz.guns.api.event.common.GunFireEvent;
+import com.tacz.guns.resource.pojo.data.gun.GunData;
 import com.tacz.guns.resource.pojo.data.gun.GunRecoil;
 import com.tacz.guns.resource.pojo.data.gun.GunRecoilKeyFrame;
 import com.txttext.taczlabs.config.fileconfig.HudConfig;
+import com.txttext.taczlabs.util.TLUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
@@ -11,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import static com.txttext.taczlabs.hud.crosshair.Crosshair.gunData;
+//import static com.txttext.taczlabs.hud.crosshair.Crosshair.gunData;
 
 @OnlyIn(Dist.CLIENT)
 public class PlayerFireHandler {
@@ -27,10 +29,12 @@ public class PlayerFireHandler {
         if(!event.getLogicalSide().isClient()) return;
         LocalPlayer player = Minecraft.getInstance().player;
         if(event.getShooter() != player) return;
-
         //获取枪械后坐力
-        GunRecoil recoil = gunData.getRecoil();
-        if (recoil == null) return;
+        GunData gunData = TLUtil.getGunData(event.getGunItemStack());
+//        if (gunData == null) {
+//            gunData = TLUtil.getGunData(event.getGunItemStack());
+//        }
+        GunRecoil recoil = gunData.getRecoil();//忽略，TLUtil.getGunData()返回null的原因是手上非枪，而这个事件获取到的一定是枪
         float kick = getRecoilKick(recoil, 1f);
         PlayerFireHandler.fireSpread += Math.max(kick, 2) * HudConfig.shootingSpread.get();//有一个保底值，不然都看不出来动了//调倍率让视觉更明显
     }
@@ -56,6 +60,7 @@ public class PlayerFireHandler {
     public static void setFireSpread(float spread){
         fireSpread = spread;
     }
+
 //        // 获取 keyframe（用来取第一个时间点的实际后坐力）
 //        GunRecoilKeyFrame[] pitchFrames = recoil.getPitch();
 //        if (pitchFrames == null || pitchFrames.length == 0) return;

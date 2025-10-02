@@ -9,7 +9,7 @@ import org.joml.Matrix4f;
 import java.util.List;
 import static com.txttext.taczlabs.config.fileconfig.HudConfig.*;
 
-public class CrosshairRender {
+public class CrosshairRenderer {
     /**
      * 利用 OpenGL 绘制方形
      * @param x1 左上角的横坐标

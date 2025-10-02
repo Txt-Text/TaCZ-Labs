@@ -21,21 +21,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(TaCZLabs.MODID)
 public class TaCZLabs {
     public static final String MODID = "taczlabs";
-    //private static final Logger LOGGER = LogUtils.getLogger();// 直接引用 slf4j 日志记录器
-    //大部分都是 Minecraft Dev 插件生成的，不要在意这些细节
-    /*// 创建一个延迟注册器（Deferred Register），用于保存所有将在 “taczlabs ”命名空间下注册的方块
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);//物品
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);//创造模式标签页
-    // 依据命名空间和路径，注册一个 id 为 taczlabs:example_block 的方块
-    public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
-    public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
-    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().alwaysEat().nutrition(1).saturationMod(2f).build())));
 
-    // 注册一个id为 taczlabs:example_tab 的创造模式标签页，置于“战斗”标签页之后。
-    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> EXAMPLE_ITEM.get().getDefaultInstance()).displayItems((parameters, output) -> {
-        output.accept(EXAMPLE_ITEM.get()); // 将example_item添加到标签页。对于自己的标签页，这种方法优于事件
-    }).build());*/
     @SuppressWarnings("all")//弃用警告你够了，用新写法旧版forge会崩溃
     public TaCZLabs(){
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -64,18 +50,7 @@ public class TaCZLabs {
     }*/
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        //一些常见的设置
-        //LOGGER.info("HELLO FROM COMMON SETUP");//Minecraft Development你补药在日志里乱拉屎啊（恼）
-        //LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-//        if (Config.logDirtBlock) LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-//        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-//        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
-
-    //在构造的方块标签页中添加示例方块物品
-//    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-//        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(EXAMPLE_BLOCK_ITEM);
-//    }
 
     //可以使用 SubscribeEvent，让事件总线发现要调用的方法
     @SubscribeEvent
