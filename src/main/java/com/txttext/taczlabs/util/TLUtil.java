@@ -13,20 +13,24 @@ import java.util.Optional;
 
 public class TLUtil {
 
-    @Nullable
-    public static GunData getGunData(ItemStack gun){
-        if(gun.getItem() instanceof IGun iGun){
-            return TimelessAPI.getClientGunIndex(iGun.getGunId(gun)).get().getGunData();
-        }
-        return null;
-    }
-
+    ///获取解包 Optional 后的的枪械 Index
     @OnlyIn(Dist.CLIENT)
     @Nullable
     public static ClientGunIndex getClientGunIndex(ItemStack gun){
         if(gun.getItem() instanceof IGun iGun){
-            return TimelessAPI.getClientGunIndex(iGun.getGunId(gun)).get();
+            Optional<ClientGunIndex> clientGunIndex = TimelessAPI.getClientGunIndex(iGun.getGunId(gun));
+            return clientGunIndex.orElse(null);
         }
         return null;
     }
+
+    /// 获取枪械 Data
+    @OnlyIn(Dist.CLIENT)
+    @Nullable
+    public static GunData getGunData(ItemStack gun){
+        ClientGunIndex clientGunIndex = getClientGunIndex(gun);
+        return clientGunIndex != null ? clientGunIndex.getGunData() : null;//判null
+    }
+
+
 }

@@ -87,7 +87,7 @@ public class HudConfig {
         //准星动画速度
         animSpeed = builder
                 .comment("Speed of crosshair anim. range 5 ~ 30, default 12.")
-                .defineInRange("Anim Speed", 12, 5, 30);
+                .defineInRange("Anim Speed", 10, 5, 30);
         //开火抖动
         shootingSpread = builder
                 .comment("Magnitude of collimation spread according to the recoil at the time of firing, range 0 ~ 5, default 2.")

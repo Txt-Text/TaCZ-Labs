@@ -27,30 +27,31 @@ public class HudClothConfig {
                 .build()
         );
         //全局设置
-        /*ARGB滑块*/
-        hud.addEntry(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_alpha"), HudConfig.A.get(), 0, 255)
+
+        /*视觉效果*/
+        List<AbstractConfigListEntry<?>> dynamicAndShadow = new ArrayList<>();
+
+        //ARGB滑块
+        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_alpha"), HudConfig.A.get(), 0, 255)
                 .setSaveConsumer(val -> {
                     HudConfig.A.set(val);
                     updateColorFromARGB();
                 }).build());
-        hud.addEntry(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_red"), HudConfig.R.get(), 0, 255)
+        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_red"), HudConfig.R.get(), 0, 255)
                 .setSaveConsumer(val -> {
                     HudConfig.R.set(val);
                     updateColorFromARGB();
                 }).build());
-        hud.addEntry(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_green"), HudConfig.G.get(), 0, 255)
+        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_green"), HudConfig.G.get(), 0, 255)
                 .setSaveConsumer(val -> {
                     HudConfig.G.set(val);
                     updateColorFromARGB();
                 }).build());
-        hud.addEntry(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_blue"), HudConfig.B.get(), 0, 255)
+        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_blue"), HudConfig.B.get(), 0, 255)
                 .setSaveConsumer(val -> {
                     HudConfig.B.set(val);
                     updateColorFromARGB();
                 }).build());
-
-        /*动态效果/阴影设置*/
-        List<AbstractConfigListEntry<?>> dynamicAndShadow = new ArrayList<>();
         //阴影不透明度
         dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.shadow_alpha"),
                         HudConfig.shadowAlpha.get(), 0, 255)
@@ -92,7 +93,7 @@ public class HudClothConfig {
         //动画速度
         dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.anim_speed"),
                         HudConfig.animSpeed.get(), 5 , 30)
-                .setDefaultValue(12)
+                .setDefaultValue(10)
                 .setTooltip(Component.translatable("config.taczlabs.hud.anim_speed.desc"))
                 .setSaveConsumer(HudConfig.animSpeed::set)
                 .build()
@@ -108,6 +109,7 @@ public class HudClothConfig {
         hud.addEntry(entryBuilder.startSubCategory(Component.translatable("config.taczlabs.hud.dynamic_and_shadow"),
                         (List<AbstractConfigListEntry>)(List<?>) dynamicAndShadow
                 )
+                .setTooltip(Component.translatable("config.taczlabs.hud.dynamic_and_shadow.desc"))
                 .setExpanded(true)//默认展开
                 .build());
 

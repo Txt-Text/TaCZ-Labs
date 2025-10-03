@@ -13,8 +13,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-//import static com.txttext.taczlabs.hud.crosshair.Crosshair.gunData;
-
 @OnlyIn(Dist.CLIENT)
 public class PlayerFireHandler {
     private static float fireSpread;
@@ -23,18 +21,16 @@ public class PlayerFireHandler {
         MinecraftForge.EVENT_BUS.register(new PlayerFireHandler());
     }
 
+    @SuppressWarnings("DataFlowIssue")//忽略getRecoil()的npe检测，TLUtil.getGunData()返回null的原因是手上非枪，而这个事件获取到的一定是枪
     @SubscribeEvent
     public void onPlayerFire(GunFireEvent event){
-        //这个事件在所有玩家开枪时触发，因此须区分开枪者是否为本地玩家来只响应自己的事件，避免多人游戏中同步到其他人
+        //这个事件在所有玩家开枪时触发，因此须区分开枪者是否为本地玩家，只响应自己的事件避免多人游戏中同步到其他人的数据
         if(!event.getLogicalSide().isClient()) return;
         LocalPlayer player = Minecraft.getInstance().player;
         if(event.getShooter() != player) return;
         //获取枪械后坐力
         GunData gunData = TLUtil.getGunData(event.getGunItemStack());
-//        if (gunData == null) {
-//            gunData = TLUtil.getGunData(event.getGunItemStack());
-//        }
-        GunRecoil recoil = gunData.getRecoil();//忽略，TLUtil.getGunData()返回null的原因是手上非枪，而这个事件获取到的一定是枪
+        GunRecoil recoil = gunData.getRecoil();
         float kick = getRecoilKick(recoil, 1f);
         PlayerFireHandler.fireSpread += Math.max(kick, 2) * HudConfig.shootingSpread.get();//有一个保底值，不然都看不出来动了//调倍率让视觉更明显
     }
@@ -60,7 +56,6 @@ public class PlayerFireHandler {
     public static void setFireSpread(float spread){
         fireSpread = spread;
     }
-
 //        // 获取 keyframe（用来取第一个时间点的实际后坐力）
 //        GunRecoilKeyFrame[] pitchFrames = recoil.getPitch();
 //        if (pitchFrames == null || pitchFrames.length == 0) return;
@@ -73,5 +68,4 @@ public class PlayerFireHandler {
 //
 //        // 添加到准星扩张值中（你已经在渲染函数中平滑处理 fireSpread）
 //        PlayerFireHandler.fireSpread += spreadBoost;
-
 }
