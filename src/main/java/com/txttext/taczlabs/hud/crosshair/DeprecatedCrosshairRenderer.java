@@ -9,7 +9,7 @@ import org.joml.Matrix4f;
 import java.util.List;
 import static com.txttext.taczlabs.config.fileconfig.HudConfig.*;
 
-public class CrosshairRenderer {
+public class DeprecatedCrosshairRenderer {
     /**
      * 利用 OpenGL 绘制方形
      * @param x1 左上角的横坐标
@@ -29,10 +29,6 @@ public class CrosshairRenderer {
         float r = argb.get(1);
         float g = argb.get(2);
         float b = argb.get(3);
-//        float a = (color >> 24 & 255) / 255.0f;
-//        float r = (color >> 16 & 255) / 255.0f;
-//        float g = (color >> 8 & 255) / 255.0f;
-//        float b = (color & 255) / 255.0f;
 
         //自动排序坐标
         float left = Math.min(x1, x2);
@@ -56,11 +52,15 @@ public class CrosshairRenderer {
      */
     public static void drawArc(PoseStack poseStack, double cx, double cy, double radius, float startAngle, float endAngle, int segments, int color) {
         Matrix4f matrix = poseStack.last().pose();
-        List<Float> argb = Argb(color);
-        float a = argb.get(0);
-        float r = argb.get(1);
-        float g = argb.get(2);
-        float b = argb.get(3);
+
+        //直接使用位运算解析 ARGB，原版的 .color() 方法通常需要 0-255 的 int
+        int a = (color >> 24) & 255;
+        int r = (color >> 16) & 255;
+        int g = (color >> 8) & 255;
+        int b = color & 255;
+
+        //设置正确的着色器
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
         BufferBuilder buffer = Tesselator.getInstance().getBuilder();
         buffer.begin(VertexFormat.Mode.LINE_STRIP, DefaultVertexFormat.POSITION_COLOR);
@@ -69,6 +69,8 @@ public class CrosshairRenderer {
             float angle = startAngle + (endAngle - startAngle) * i / segments;
             double x = cx + Math.cos(Math.toRadians(angle)) * radius;
             double y = cy + Math.sin(Math.toRadians(angle)) * radius;
+
+            //使用 0 作为 Z 值可能被遮挡，如果仍然看不见，尝试改成 400
             buffer.vertex(matrix, (float)x, (float)y, 0).color(r, g, b, a).endVertex();
         }
 
@@ -254,20 +256,28 @@ public class CrosshairRenderer {
         drawDot(x, y);//绘制点状准星
     }
 
-    //centerX,centerY
     public static void drawArcCrosshair(GuiGraphics graphics, float x, float y, float spread){
         int color = 0xFFFFFFFF; // 白色
         PoseStack poseStack = graphics.pose();
+
+        // 开启混合并设置函数，确保带有 Alpha 通道的颜色能正常半透明显示
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
+
+        // 关闭深度测试，确保准星永远渲染在最上层，不被别的 UI 遮挡
+        RenderSystem.disableDepthTest();
+
         // 中心点
-        drawDot(x, y); // 半径2的点，可自行封装
+        drawDot(x, y); // 你的点绘制方法也需要注意 Shader 问题
 
-        // 左半圆括号：从180°到360°（开口向右）
-        drawArc(poseStack, x - 6, y, 5, 180f, 360f, 32, color);
+        // 左半圆括号：从180°到360°（注意你的角度逻辑：标准数学坐标中 180->360 是下半圆，如果想画左括号，可能需要 90->270）
+        drawArc(poseStack, x - 6 - spread, y, 5, 90f, 270f, 32, color); // 建议加上 spread 动态扩散值
 
-        // 右半圆括号：从0°到180°（开口向左）
-        drawArc(poseStack, x + 6, y, 5, 0f, 180f, 32, color);
+        // 右半圆括号：从0°到180°（右括号则是 -90->90 或 270->450）
+        drawArc(poseStack, x + 6 + spread, y, 5, -90f, 90f, 32, color);
+
+        // 绘制完毕后恢复深度测试，以免影响后续其他模组的 UI 渲染
+        RenderSystem.enableDepthTest();
     }
 //    public static void drawRectCrosshair(float x, float y, float spread) {
 //        drawRectCrosshair(x, y, 6.0f, 1.0f, spread);

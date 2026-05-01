@@ -5,7 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.client.event.RenderCrosshairEvent;
 import com.tacz.guns.client.resource.index.ClientGunIndex;
-import com.txttext.taczlabs.hud.crosshair.Crosshair;
+import com.txttext.taczlabs.hud.crosshair.CrosshairRender;
 import com.txttext.taczlabs.hud.crosshair.CrosshairType;
 import com.txttext.taczlabs.config.fileconfig.HudConfig;
 import com.txttext.taczlabs.util.TLUtil;
@@ -55,7 +55,7 @@ public class RenderCrosshairEventMixin {
         CrosshairType currentType = switch (type){
             case "pistol"-> pistolCrosshair.get();//手枪
             case "smg"-> smgCrosshair.get();//冲锋枪 TODO：做出一个这样的括号准星给冲锋枪：( · )
-            //case "rifle"-> rifleCrosshair.get();//步枪
+            case "rifle"-> rifleCrosshair.get();//步枪
             case "mg"-> mgCrosshair.get();//机枪
             case "shotgun"-> shotgunCrosshair.get();//霰弹枪 TODO：把霰弹枪的圆形准星做进去
             case "sniper"-> sniperCrosshair.get();//狙击枪
@@ -63,7 +63,7 @@ public class RenderCrosshairEventMixin {
             default-> rifleCrosshair.get();//步枪和未知情况，未知情况按说不可能出现
         };
         if(currentType == CrosshairType.TACZ) return;//原版准星则交回给tacz渲染
-        Crosshair.renderCrosshair(graphics, currentType, x, y, gunIndex, player);//渲染准星
+        CrosshairRender.renderCrosshair(graphics, currentType, x, y, gunIndex, player);//渲染准星
         ci.cancel();
     }
 

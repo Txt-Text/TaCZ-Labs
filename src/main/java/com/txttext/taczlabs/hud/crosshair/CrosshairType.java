@@ -5,6 +5,8 @@ public enum CrosshairType{
     RECT,//方形准星
     RIGHT_ANGLE,//直角准星
     ARC,//括号准星
+//    BRACKET,//方括号准星
+    RULER,//标尺准星
     POINT,//点
     TACZ//TaCZ原版准星
 }

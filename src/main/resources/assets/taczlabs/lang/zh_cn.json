@@ -53,6 +53,7 @@
   "config.taczlabs.hud.crosshair.rect": "方形准星",
   "config.taczlabs.hud.crosshair.circle": "圆形准星",
   "config.taczlabs.hud.crosshair.arc": "括号准星",
+  "config.taczlabs.hud.crosshair.ruler": "标尺准星",
   "config.taczlabs.hud.crosshair.point": "点状准星",
   "config.taczlabs.hud.crosshair.tacz": "TaCZ 原版准星",
 
@@ -63,5 +64,10 @@
   "config.taczlabs.hud.gun.crosshair.mg": "机枪准星",
   "config.taczlabs.hud.gun.crosshair.sniper": "狙击枪准星",
   "config.taczlabs.hud.gun.crosshair.shotgun": "霰弹枪准星",
-  "config.taczlabs.hud.gun.crosshair.rpg": "重武器准星"
+  "config.taczlabs.hud.gun.crosshair.rpg": "重武器准星",
+
+  "config.taczlabs.hud.gun.crosshair.dotstyle" : "点状样式",
+  "config.taczlabs.hud.gun.crosshair.dotstyle.desc" : "点状样式",
+  "config.taczlabs.hud.gun.crosshair.dotstyle.rect" : "方",
+  "config.taczlabs.hud.gun.crosshair.dotstyle.circle" : "圆"
 }

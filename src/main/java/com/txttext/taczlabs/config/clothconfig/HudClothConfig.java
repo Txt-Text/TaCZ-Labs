@@ -1,8 +1,9 @@
 package com.txttext.taczlabs.config.clothconfig;
 
 import com.txttext.taczlabs.config.fileconfig.HudConfig;
-import com.txttext.taczlabs.hud.crosshair.Crosshair;
+import com.txttext.taczlabs.hud.crosshair.CrosshairRender;
 import com.txttext.taczlabs.hud.crosshair.CrosshairType;
+import com.txttext.taczlabs.hud.crosshair.DotStyle;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -12,6 +13,8 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.txttext.taczlabs.config.fileconfig.HudConfig.dotStyle;
 
 public class HudClothConfig {
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -79,7 +82,7 @@ public class HudClothConfig {
 //        );
         dynamicAndShadow.add(entryBuilder.startEnumSelector(
                         Component.translatable("config.taczlabs.hud.spread_type"),
-                        Crosshair.SpreadType.class,
+                        CrosshairRender.SpreadType.class,
                         HudConfig.spreadTypes.get()
                   )
                         .setDefaultValue(HudConfig.spreadTypes.getDefault())
@@ -111,9 +114,9 @@ public class HudClothConfig {
                 .build()
         );
         //开火抖动
-        dynamicAndShadow.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.shooting_spread"),
-                        HudConfig.shootingSpread.get(), 0 , 10)
-                .setDefaultValue(5)
+        dynamicAndShadow.add(entryBuilder.startBooleanToggle(Component.translatable("config.taczlabs.hud.shooting_spread"),
+                        HudConfig.shootingSpread.get()/*, 0 , 10*/)
+                //.setDefaultValue(5)
                 .setTooltip(Component.translatable("config.taczlabs.hud.shooting_spread.desc"))
                 .setSaveConsumer(HudConfig.shootingSpread::set)
                 .build()
@@ -208,11 +211,32 @@ public class HudClothConfig {
         //自定义准星列表
 //        List<String> configList = new ArrayList<>(HudConfig.customCrosshairs.get());
 //        crosshairType.add(entryBuilder.)
+
         //注册折叠选项
         hud.addEntry(entryBuilder.startSubCategory(Component.translatable("config.taczlabs.hud.crosshair.crosshair_type"),
                         (List<AbstractConfigListEntry>)(List<?>)crosshairType
                 )
                 .setTooltip(Component.translatable("config.taczlabs.hud.crosshair.crosshair_type.desc"))
+                .setExpanded(true)//默认展开
+                .build());
+
+        List<AbstractConfigListEntry<?>> dotStyle = new ArrayList<>();
+        dotStyle.add(entryBuilder.startEnumSelector(
+                        Component.translatable("config.taczlabs.hud.gun.crosshair.dotstyle"),
+                        DotStyle.class,
+                        HudConfig.dotStyle.get()
+                )
+                .setDefaultValue(HudConfig.dotStyle.getDefault())
+                .setEnumNameProvider(value -> Component.translatable("config.taczlabs.hud.gun.crosshair.dotstyle." + value.name().toLowerCase()))
+                .setSaveConsumer(HudConfig.dotStyle::set)
+                .build()
+        );
+
+        //注册折叠选项
+        hud.addEntry(entryBuilder.startSubCategory(Component.translatable("config.taczlabs.hud.gun.crosshair.dotstyle"),
+                        (List<AbstractConfigListEntry>)(List<?>)dotStyle
+                )
+                .setTooltip(Component.translatable("config.taczlabs.hud.gun.crosshair.dotstyle.desc"))
                 .setExpanded(true)//默认展开
                 .build());
 
@@ -277,6 +301,26 @@ public class HudClothConfig {
                 .build());
         eachCrosshairProperties.add(entryBuilder.startSubCategory(Component.translatable("config.taczlabs.hud.crosshair.right_angle"),
                         (List<AbstractConfigListEntry>)(List<?>) rightAngleCrosshairProperties).setExpanded(true).build());
+        //括号准星设置
+        List<AbstractConfigListEntry<?>> arcCrosshairProperties = new ArrayList<>();
+        arcCrosshairProperties.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_radius"),
+                        (HudConfig.arcCrosshairRadius.get()), 0, 20)
+                .setDefaultValue(8)
+                .setSaveConsumer(HudConfig.arcCrosshairRadius::set)
+                .build());
+        arcCrosshairProperties.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_length"),
+                        (HudConfig.arcCrosshairLength.get()), 1, 20)
+                .setDefaultValue(6)
+                .setSaveConsumer(HudConfig.arcCrosshairLength::set)
+                .build());
+        arcCrosshairProperties.add(entryBuilder.startIntSlider(Component.translatable("config.taczlabs.hud.crosshair_width"),
+                        (HudConfig.arcCrosshairWidth.get()), 1, 10)
+                .setDefaultValue(1)
+                .setSaveConsumer(HudConfig.arcCrosshairWidth::set)
+                .build());
+        eachCrosshairProperties.add(entryBuilder.startSubCategory(Component.translatable("config.taczlabs.hud.crosshair.arc"),
+                (List<AbstractConfigListEntry>)(List<?>) arcCrosshairProperties).setExpanded(true).build());
+
         //回到第一层嵌套
         hud.addEntry(entryBuilder.startSubCategory(Component.translatable("config.taczlabs.hud.crosshair.each_crosshair_prop"),
                         (List<AbstractConfigListEntry>)(List<?>) eachCrosshairProperties)

@@ -1,7 +1,8 @@
 package com.txttext.taczlabs.config.fileconfig;
 
-import com.txttext.taczlabs.hud.crosshair.Crosshair;
+import com.txttext.taczlabs.hud.crosshair.CrosshairRender;
 import com.txttext.taczlabs.hud.crosshair.CrosshairType;
+import com.txttext.taczlabs.hud.crosshair.DotStyle;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public class HudConfig {
     public static ForgeConfigSpec.BooleanValue ENABLE_TL_CROSSHAIR;//是否启用本模组的准星
 
     //public static ForgeConfigSpec.BooleanValue inaccuracySpread;//严格按照真实扩散值作为准星扩散
-    public static ForgeConfigSpec.EnumValue<Crosshair.SpreadType> spreadTypes;
+    public static ForgeConfigSpec.EnumValue<CrosshairRender.SpreadType> spreadTypes;
     /*全局设置*/
     public static ForgeConfigSpec.IntValue color;//准星颜色值（RGBA HEX）
     public static ForgeConfigSpec.IntValue R;//准星颜色值（RGBA）
@@ -23,7 +24,7 @@ public class HudConfig {
     public static ForgeConfigSpec.IntValue shadowOffset;//阴影偏移量
     public static ForgeConfigSpec.IntValue maxSpread;//最大准星扩散半径
     public static ForgeConfigSpec.IntValue animSpeed;//动画速度
-    public static ForgeConfigSpec.IntValue shootingSpread;//开火扩散
+    public static ForgeConfigSpec.BooleanValue shootingSpread;//开火扩散
     //
     public static ForgeConfigSpec.EnumValue<CrosshairType> pistolCrosshair;//手枪准星
     public static ForgeConfigSpec.EnumValue<CrosshairType> smgCrosshair;//冲锋枪准星
@@ -33,6 +34,7 @@ public class HudConfig {
     public static ForgeConfigSpec.EnumValue<CrosshairType> sniperCrosshair;//狙击枪准星
     public static ForgeConfigSpec.EnumValue<CrosshairType> rpgCrosshair;//重武器准星
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> customCrosshairs;//自定义名单（需要 GunID）
+    public static ForgeConfigSpec.EnumValue<DotStyle> dotStyle;//点样式
 
     /*局部设置*/
     public static ForgeConfigSpec.IntValue crosshairRadius;//准星基础半径（十字准星）
@@ -44,8 +46,9 @@ public class HudConfig {
     public static ForgeConfigSpec.IntValue rightAngleCrosshairRadius;//准星基础半径（直角准星）
 //    public static ForgeConfigSpec.IntValue rightAngleCrosshairLength;//准星长度（直角准星）
     public static ForgeConfigSpec.IntValue rightAngleCrosshairWidth;//准星宽度（直角准星）
-
-
+    public static ForgeConfigSpec.IntValue arcCrosshairRadius;//准星基础半径（括号准星）
+    public static ForgeConfigSpec.IntValue arcCrosshairLength;//准星长度（括号准星）
+    public static ForgeConfigSpec.IntValue arcCrosshairWidth;//准星长度（括号准星）
 
     public static void init(ForgeConfigSpec.Builder builder) {
         builder.push("HUD");
@@ -78,7 +81,7 @@ public class HudConfig {
         //扩散类型
         spreadTypes = builder
                 .comment("Real: Follows the actual firearm spread\nVirtual: moving*2, sneaking*0.7, lying*0.5\nSpeed: Moving based on player speed, sneaking*0.7, lying*0.5")
-                .defineEnum("Spread Rules", Crosshair.SpreadType.REAL);
+                .defineEnum("Spread Rules", CrosshairRender.SpreadType.REAL);
 //        //移速影响最大值，准星受速度影响扩散的最大值
 //        speedSpread = builder
 //                .comment("Maximum value of collimator spread affected by velocity, range 0 ~ 100, default 100 .")
@@ -92,21 +95,25 @@ public class HudConfig {
                 .comment("Speed of crosshair anim. range 10 ~ 30, default 20.")
                 .defineInRange("Anim Speed", 20, 10, 30);
         //开火抖动
+//        shootingSpread = builder
+//                .comment("Magnitude of collimation spread according to the recoil at the time of firing, range 0 ~ 5, default 2.")
+//                .defineInRange("Shooting Judder", 5, 0, 10);
         shootingSpread = builder
-                .comment("Magnitude of collimation spread according to the recoil at the time of firing, range 0 ~ 5, default 2.")
-                .defineInRange("Shooting Judder", 5, 0, 10);
+                .comment("If enable Shooting Judder")
+                .define("Shooting Judder", true);
+
         builder.pop();
         /*局部设置*/
         builder.push("Local Settings");
         //准星类型
         builder.push("Crosshair Type");
         pistolCrosshair = builder.comment("Crosshair of Pistol").defineEnum("Pistol", CrosshairType.RIGHT_ANGLE);//手枪
-        smgCrosshair = builder.comment("Crosshair of Sub-Machine Gun").defineEnum("Sub-Machine Gun", CrosshairType.CROSSHAIR);//冲锋枪
+        smgCrosshair = builder.comment("Crosshair of Sub-Machine Gun").defineEnum("Sub-Machine Gun", CrosshairType.ARC);//冲锋枪
         rifleCrosshair = builder.comment("Crosshair of Rifle").defineEnum("Rifle", CrosshairType.CROSSHAIR);//步枪
         mgCrosshair = builder.comment("Crosshair of Machine Gun").defineEnum("Machine Gun", CrosshairType.CROSSHAIR);//机枪
         sniperCrosshair = builder.comment("Crosshair of Sniper").defineEnum("Sniper", CrosshairType.CROSSHAIR);//狙击枪
         shotgunCrosshair = builder.comment("Crosshair of Shotgun").defineEnum("Shotgun", CrosshairType.RECT);//霰弹枪
-        rpgCrosshair = builder.comment("Crosshair of Heavy Weapon").defineEnum("Heavy Weapon", CrosshairType.RECT);//重武器
+        rpgCrosshair = builder.comment("Crosshair of Heavy Weapon").defineEnum("Heavy Weapon", CrosshairType.RULER);//重武器
         //自定义名单
 //        customCrosshairs = builder
 //                .comment("""
@@ -119,6 +126,9 @@ public class HudConfig {
 //                        List.of("tacz:example=CROSSHAIR"),
 //                        obj -> obj instanceof String && ((String) obj).contains("=")
 //                );
+
+        dotStyle = builder.comment("Crosshair Dot Style").defineEnum("Dot Style", DotStyle.RECT);
+
         builder.pop();
 
         builder.push("Crosshair Properties");
@@ -158,6 +168,20 @@ public class HudConfig {
         rightAngleCrosshairWidth = builder
                 .comment("Width of right angle crosshair, range 1 ~ 5, default 1 .")
                 .defineInRange("Right Angle Crosshair Width", 1, 1, 5);
+
+        //括号准星半径
+        arcCrosshairRadius = builder
+                .comment("Radius of arc crosshair, range 0 ~ 20, default 8 .")
+                .defineInRange("Arc Crosshair Radius", 8, 0, 20);
+        //括号准星长度
+        arcCrosshairLength = builder
+                .comment("Length of arc crosshair, range 1 ~ 20, default 6 .")
+                .defineInRange("Arc Crosshair Length", 6, 1, 20);
+        //括号准星粗细
+        arcCrosshairWidth = builder
+                .comment("Width of arc crosshair, range 1 ~ 10, default 2 .")
+                .defineInRange("Arc Crosshair Width", 1, 1, 10);
+
         builder.pop();//退出Crosshair Properties
         builder.pop();//退出HUD
     }

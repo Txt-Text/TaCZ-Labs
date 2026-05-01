@@ -31,6 +31,4 @@ public class TLUtil {
         ClientGunIndex clientGunIndex = getClientGunIndex(gun);
         return clientGunIndex != null ? clientGunIndex.getGunData() : null;//判null
     }
-
-
 }

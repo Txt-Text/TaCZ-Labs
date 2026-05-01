@@ -2,7 +2,7 @@ package com.txttext.taczlabs;
 
 import com.txttext.taczlabs.config.ClientConfig;
 import com.txttext.taczlabs.config.clothconfig.ClothConfig;
-import com.txttext.taczlabs.event.shoot.PlayerFireHandler;
+//import com.txttext.taczlabs.event.shoot.PlayerFireHandler;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -38,7 +38,7 @@ public class TaCZLabs {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            PlayerFireHandler.register();//注册监听的开火事件
+            //PlayerFireHandler.register();//注册监听的开火事件
             ClothConfig.register();//注册配置页面
         }
     }
